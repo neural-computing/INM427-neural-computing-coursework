@@ -1,17 +1,19 @@
 pkg load nnet
 page_output_immediately (1);
 
+t=cputime()
+
 clear all;
 % Read in Raw csv
 %raw = csvread("PhishingData.csv",1);
 raw = csvread("PhishingData.csv");
 
-n_hidden_nodes = 20;
+n_hidden_nodes = 25;
 n_classes = 3;
-weights_scale_factor = 0.1;
-learning_rate = 0.25;
-epochs = 1000;
-momentum = 0.0025;
+weights_scale_factor = 0.2;
+learning_rate = 0.005;
+epochs = 5000;
+momentum = 0.0001;
 
 %split data into test and train sectionsq
 p = .7;      % proportion of rows to select for training
@@ -179,3 +181,4 @@ end
 %show results in a confusion matrix
 %results matrix has to be one hot encoded to work.
 confusion = confmat(full(ind2vec(results(:,1)+2)'),full(ind2vec(results(:,2)+2)'));
+disp(cputime - t)
