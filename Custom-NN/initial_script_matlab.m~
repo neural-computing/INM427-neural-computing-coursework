@@ -91,16 +91,14 @@ hold off
 %plot accuracy and error per epoch
 figure(2)
 hold on
-x = 1:size(accuracy_per_epoch,1);
+x = 1:size(error_per_epoch,1);
 plot(x,accuracy_per_epoch)
 plot(x,error_per_epoch)
 legend('Training Accuracy per Epoch','Training Error per Epoch')
 hold off
 
-writematrix(overal_results,"NN_model_results.csv")
-writematrix(best_distro,"NN_best_distro.csv")
+writematrix(A,"Model)
 
-saveas(figure(1),"Test-NN.png")
-saveas(figure(2),"Test-NN-acc-err.png")
+
 
 

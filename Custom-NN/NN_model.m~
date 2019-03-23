@@ -83,10 +83,7 @@ function [confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,old_acc
     old_acc_delta = [old_acc_delta;acc_delta];
     end
  
-  [test_results,test_accuracy] = test_net(X_test,y_test,theta1,theta2,predictions);
-  
-  %crop off ofset (dur to how we impliment the stopping resilience
-  old_acc_delta = old_acc_delta(10:end);
+  [test_results,test_accuracy] = test_net(X_teold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltast,y_test,theta1,theta2,predictions);
   
   confusion = confusionmat(test_results(:,1),test_results(:,2));
   time_taken = cputime() - t;
