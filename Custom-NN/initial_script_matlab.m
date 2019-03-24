@@ -4,16 +4,15 @@ more off
 clear all;
 % Read in Raw csv
 raw = csvread("../data/PhishingData.csv",1); %needed for matlab
-%raw = csvread("PhishingData.csv");
 
 %Set parameters
 n_hidden_nodes=10:5:60;
 n_classes = 3; 
-weights_scale_factor = 0.1;
+weights_scale_factor = 0.2;
 learning_rates=0.001:0.005:0.1;
 epochs = 150;
 momentums=0.005:0.025:0.05;
-early_stopping_threshs=0.005:0.025:0.05;
+early_stopping_threshs=0.001:0.025:0.0501;
 early_stopping_resilance = 10;
 test_train_split_p = .7;      % proportion of rows to select for training
 debug = false;
@@ -26,8 +25,10 @@ tests = 0;
 total_tests = size(learning_rates,2) * size(momentums,2) * size(early_stopping_threshs,2) * size(n_hidden_nodes,2);
 disp(total_tests);
 overal_results = zeros(total_tests,7);
-wbm = waitbar(0,sprintf("Training Models (%f)", total_tests));
-confusions = cell(total_tests,n_classes,n_classes);
+wbm = waitbar(0,sprintf("Training Models (%d)", total_tests));
+train_confusions = cell(total_tests);
+test_confusions = cell(total_tests);
+overal_confusions = cell(total_tests);
 
 %how stable is the network? we see that 
 for learning_rate=learning_rates
@@ -37,11 +38,13 @@ for learning_rate=learning_rates
             %[confusion,train_accuracy,test_accuracy,time_taken] = pararrayfun(nproc, fun, n_hidden_nodes,"UniformOutput", false);
             for n_hidden_node=n_hidden_nodes
                 tests = tests+1;
-                waitbar((tests/total_tests),wbm,"Training Models");
-                [confusion,train_accuracy,test_accuracy,time_taken,accuracy_per_epoch,error_per_epoch] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,n_hidden_node,n_classes,weights_scale_factor,learning_rate,epochs,momentum,early_stopping_thresh,early_stopping_resilance,debug);
+                waitbar((tests/total_tests),wbm,sprintf("Training Models (%d/%d)", [tests,total_tests]));
+                [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,time_taken,accuracy_per_epoch,error_per_epoch] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,n_hidden_node,n_classes,weights_scale_factor,learning_rate,epochs,momentum,early_stopping_thresh,early_stopping_resilance,debug);
                 display([tests,test_accuracy])
                 overal_results(tests,:) = [n_hidden_node,learning_rate,momentum,early_stopping_thresh,train_accuracy,test_accuracy,time_taken];
-                confusions{tests} = confusion;
+                train_confusions{tests} = train_confusion;
+                test_confusions{tests} = test_confusion;
+                overal_confusions{tests} = overal_confusion;
             end
         end
     end
@@ -52,7 +55,7 @@ close(wbm);
 %pick best test
 [v,ind] = maxk(overal_results(:,6),5);
 overal_results(ind,:)
-confusions{ind}
+test_confusions{ind}
 
 %test stability
 best_nn = overal_results(ind(1),:);
@@ -61,7 +64,7 @@ best_nn = overal_results(ind(1),:);
 %generator is fixed, we get the same output. Otherwise we see variation.
 best_distro = zeros(20,3);
 for i=1:20
-    [confusion,train_accuracy,test_accuracy,time_taken,accuracy_per_epoch,error_per_epoch] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,...
+    [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,time_taken,accuracy_per_epoch,error_per_epoch] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,...
         best_nn(1),n_classes,weights_scale_factor,best_nn(2),...
         epochs,best_nn(3),best_nn(4),early_stopping_resilance,debug);
     best_distro(i,:) = [i,train_accuracy,test_accuracy];
@@ -85,7 +88,10 @@ plot(x,y1)
 plot(x,y2)
 plot(x,mean1)
 plot(x,mean2)
-legend('Train Distribution','Test Distribution')
+legend('Train Distribution','Test Distribution');
+xlabel("Accuracy");
+ylabel("Probability Density for 'Best' Model Accuracy");
+grid on
 hold off
 
 %plot accuracy and error per epoch
@@ -93,14 +99,34 @@ figure(2)
 hold on
 x = 1:size(accuracy_per_epoch,1);
 plot(x,accuracy_per_epoch)
-plot(x,error_per_epoch)
-legend('Training Accuracy per Epoch','Training Error per Epoch')
+legend('Training Accuracy per Epoch','Location','East');
+xlabel("Epochs");
+ylabel("Training Accuracy");
+grid on
 hold off
+
+figure(3)
+hold on
+x = 1:size(accuracy_per_epoch,1);
+plot(x,error_per_epoch)
+legend('Training Error per Epoch','Location','East');
+xlabel("Epochs");
+ylabel("Overal Sum of Absolute Error whilst training");
+grid on
+hold off
+
+saveas(figure(1),"Test-NN-Prob-Dens.png")
+saveas(figure(2),"Test-NN-acc.png")
+saveas(figure(3),"Test-NN-err.png")
 
 writematrix(overal_results,"NN_model_results.csv")
 writematrix(best_distro,"NN_best_distro.csv")
 
-saveas(figure(1),"Test-NN.png")
-saveas(figure(2),"Test-NN-acc-err.png")
-
-
+%plot and save confusion matrix for best model
+labels = {'Phishing', 'Non-Phishing', 'Unknown'};
+plot_confusion(train_confusions{ind(1)},labels,"Training Set",4)
+plot_confusion(test_confusions{ind(1)},labels,"Testing Set",5)
+plot_confusion(overal_confusions{ind(1)},labels,"Overal Set",6)
+saveas(figure(4),"best_NN_train_confusion.png")
+saveas(figure(5),"best_NN_test_confusion.png")
+saveas(figure(6),"best_NN_overal_confusion.png")

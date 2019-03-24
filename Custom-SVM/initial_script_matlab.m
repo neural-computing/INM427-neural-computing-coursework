@@ -10,11 +10,12 @@ raw = csvread("../data/PhishingData.csv",1); %needed for matlab
 
 %parameters
 test_train_split_p = .7;      % proportion of rows to select for training
-box_constraints = 0.1:0.1:1;
-kernel_scales = 0.1:0.1:1;
+kernels = ["linear","rbf"];%,"polynomial"];
+box_constraints = 0.05:0.1:1;
+kernel_scales = 0.1:0.2:1;
 shrinkage_periods = 1:3:10;
 
-% SVM parameters
+% dataset parameters
 predictorNames = {'SFH','popUpWidnow','SSLfinal_State','Request_URL','URL_of_Anchor',...
     'web_traffic','URL_Length','age_of_domain','having_IP_Address'};
 responseName = 'Result';
@@ -23,59 +24,43 @@ classNames = {'Phishing Event','Non-Phishing Event','Unknown'}; % Specify class 
 %build test/train data
 [X_train,y_train,X_test,y_test,y_train_explode] = process_data(raw,test_train_split_p);
 
-y_train_str = strrep(cellstr(num2str(y_train)),"-1","Unknown");
-y_test_str =  strrep(cellstr(num2str(y_test)),"-1","Unknown");
-y_train_str = strrep(y_train_str," 0","Non-Phishing Event");
-y_test_str =   strrep(y_test_str," 0","Non-Phishing Event");
-y_train_str = strrep(y_train_str," 1","Phishing Event");
-y_test_str =   strrep(y_test_str," 1","Phishing Event");
+%convert y variables to strings
+[y_train_str,y_test_str] = convert_targets_to_strings(y_train,y_test);
 
 %initialize some more parameters  
-total_tests = size(box_constraints,2) * size(kernel_scales,2) * size(shrinkage_periods,2);
-overal_results = zeros(total_tests,5);
-wbm = waitbar(0,sprintf("Training Models (%f)", total_tests));
-confusions = cell(total_tests,3,3);
+total_tests = size(kernels,2) * size(box_constraints,2) * size(kernel_scales,2) * size(shrinkage_periods,2);
+overal_results = zeros(total_tests,6);
+wbm = waitbar(0,sprintf("Training Models (%d)", total_tests));
+train_confusions = cell(total_tests,3,3);
+test_confusions = cell(total_tests,3,3);
+overal_confusions = cell(total_tests,3,3);
 tests = 0;
 
 %Run through tests
-for box_constraint=box_constraints
-    for kernel_scale=kernel_scales
-        for shrinkage_period=shrinkage_periods
-            %initiate counter
-            tests = tests+1;
-            
-             t = templateSVM('Standardize',false,'SaveSupportVectors',true,'BoxConstraint',box_constraint,...
-                 'KernelFunction','linear','KernelScale',kernel_scale,'ShrinkagePeriod',shrinkage_period);
+for kernel=kernels
+    for box_constraint=box_constraints
+        for kernel_scale=kernel_scales
+            for shrinkage_period=shrinkage_periods
+                %initiate counter
+                tests = tests+1;
+                
+                %pass variables to SVM wrapper
+                [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy] = SVM_wrapper(X_train,y_train,X_test,y_test,y_train_str,...
+                    y_test_str,kernel,box_constraint,kernel_scale,shrinkage_period,responseName,predictorNames,classNames);
+                
+                %append results
+                train_confusions{tests} = train_confusion;
+                test_confusions{tests} = test_confusion;
+                overal_confusions{tests} = overal_confusion;
+                if kernel=="linear"
+                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,1,train_accuracy,test_accuracy];
+                else
+                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,2,train_accuracy,test_accuracy];
+                end
+                %update waiting back
+                waitbar((tests/total_tests),wbm,sprintf("Training Models (%d/%d)", [tests,total_tests]));
 
-             Mdl = fitcecoc(X_train,y_train_str,'Learners',t,'ResponseName',responseName,...
-                 'PredictorNames',predictorNames,'ClassNames',classNames);
-
-             %Methods for cross validation
-             %CVMdl = crossval(Mdl,'KFold',5);
-             %kfoldLoss(CVMdl)
-
-             %Predict
-             train_predictions =Mdl.predict(X_train);
-             test_predictions = Mdl.predict(X_test);
-
-             %convert test predictions back to intergers
-             test_predictions_str =  strrep(test_predictions,"Unknown","-1");
-             test_predictions_str =   strrep(test_predictions_str,"Non-Phishing Event"," 0");
-             test_predictions_str =   str2num(cell2mat(strrep(test_predictions_str,"Phishing Event"," 1")));
-
-             %Build confusion matrix
-             confusions{tests} = confusionmat(test_predictions_str,y_test);
-
-             %Build Accuracy
-             train_accuracy = sum(train_predictions == y_train_str) ./ size(y_train,1);
-             test_accuracy = sum(test_predictions == y_test_str) ./ size(y_test,1)
-            
-            %append results
-            overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,train_accuracy,test_accuracy];
-            
-            %update waiting back
-            waitbar((tests/total_tests),wbm,"Training Models");
-
+            end
         end
     end
 end
@@ -84,9 +69,9 @@ disp(overal_results);
 close(wbm);
 
 %pick best test
-[v,ind] = maxk(overal_results(:,5),10);
+[v,ind] = maxk(overal_results(:,6),10);
 overal_results(ind,:)
-confusions{ind}
+test_confusions{ind}
 
 %test stability
 best_svm = overal_results(ind(1),:);
@@ -97,33 +82,17 @@ best_svm = overal_results(ind(1),:);
 best_distro = zeros(20,3);
 
 for i=1:20
-    t = templateSVM('Standardize',false,'SaveSupportVectors',true,'BoxConstraint',best_svm(1),...
-     'KernelFunction','linear','KernelScale',best_svm(2),'ShrinkagePeriod',best_svm(3));
 
-     Mdl = fitcecoc(X_train,y_train_str,'Learners',t,'ResponseName',responseName,...
-         'PredictorNames',predictorNames,'ClassNames',classNames);
-
-     %Methods for cross validation
-     %CVMdl = crossval(Mdl,'KFold',5);
-     %kfoldLoss(CVMdl)
-
-     %Predict
-     train_predictions =Mdl.predict(X_train);
-     test_predictions = Mdl.predict(X_test);
-
-     %convert test predictions back to intergers
-     test_predictions_str =  strrep(test_predictions,"Unknown","-1");
-     test_predictions_str =   strrep(test_predictions_str,"Non-Phishing Event"," 0");
-     test_predictions_str =   str2num(cell2mat(strrep(test_predictions_str,"Phishing Event"," 1")));
-
-     %Build confusion matrix
-     confusions{tests} = confusionmat(test_predictions_str,y_test);
-
-     %Build Accuracy
-     train_accuracy = sum(train_predictions == y_train_str) ./ size(y_train,1);
-     test_accuracy = sum(test_predictions == y_test_str) ./ size(y_test,1);
-     best_distro(i,:) = [i,train_accuracy,test_accuracy];
-     disp([i test_accuracy])
+    %pass variables to SVM wrapper
+    if best_svm(4)==1
+        [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy] = SVM_wrapper(X_train,y_train,X_test,y_test,y_train_str,...
+            y_test_str,"linear",best_svm(1),best_svm(2),best_svm(3),responseName,predictorNames,classNames);
+    else
+        [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy] = SVM_wrapper(X_train,y_train,X_test,y_test,y_train_str,...
+            y_test_str,"rbf",best_svm(1),best_svm(2),best_svm(3),responseName,predictorNames,classNames);
+    end
+    best_distro(i,:) = [i,train_accuracy,test_accuracy];
+    disp([i test_accuracy])
 end
 disp(best_distro);
 
@@ -131,7 +100,7 @@ disp(best_distro);
 [m,st] = normfit(best_distro(:,2:end));
 
 %and plot to see variation within the distributions
-figure(3)
+figure(7)
 hold on
 x = [0.8:0.001:1];
 y1 = normpdf(x,m(1),st(1));
@@ -143,8 +112,21 @@ plot(x,y2)
 plot(x,mean1)
 plot(x,mean2)
 legend('Train Distribution','Test Distribution')
+xlabel("Accuracy");
+ylabel("Probability Density for 'Best' Model Accuracy");
+grid on
 hold off
 
-writematrix(overal_results,"SVM_model_resullts.csv")
+writematrix(overal_results,"SVM_model_results.csv")
 writematrix(best_distro,"SVM_best_distro.csv")
-saveas(figure(3),"test.png")
+saveas(figure(7),"test.png")
+
+%plot and save confusion matrix for best model
+labels = {'Phishing', 'Non-Phishing', 'Unknown'};
+plot_confusion(train_confusions{ind(1)},labels,"Training Set",8)
+plot_confusion(test_confusions{ind(1)},labels,"Testing Set",9)
+plot_confusion(overal_confusions{ind(1)},labels,"Overal Set",10)
+saveas(figure(8),"best_SVM_train_confusion.png")
+saveas(figure(9),"best_SVM_test_confusion.png")
+saveas(figure(10),"best_SVM_overal_confusion.png")
+% sample data

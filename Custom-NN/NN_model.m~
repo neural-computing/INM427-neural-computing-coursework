@@ -1,4 +1,4 @@
-function [confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,old_acc_delta] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,n_hidden_nodes,n_classes,weights_scale_factor,learning_rate,epochs,momentum,early_stopping_thresh,early_stopping_resilance,debug)
+function [confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,overal_error] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,n_hidden_nodes,n_classes,weights_scale_factor,learning_rate,epochs,momentum,early_stopping_thresh,early_stopping_resilance,debug)
 
 
   %Initialize bias as additional column vector on the front 
@@ -45,7 +45,8 @@ function [confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,old_acc
       %back prop - calculate errors through network
       e3 = a3-y_train_explode(m,:)'; % calculate errors at output layer
       e2 = theta2' * e3 .* g2; % calculate errors at hidden layer 
-
+      overal_error = sum(abs(e3))+sum(abs(e2)); %calculate overal 
+      
       %calculate deltas for each layer
       if iter == 1 && m==1
         d2 = -learning_rate * (e3*a2'); % calculate deltas for theta2
@@ -78,13 +79,19 @@ function [confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,old_acc
     
     end
     
-    %update accuracy
+    %update accuracy and log overal error throughout net
     old_accuracy = [old_accuracy;train_accuracy];
     old_acc_delta = [old_acc_delta;acc_delta];
+    overal_error = [overal_error;overal_error];
     end
  
-  [test_results,test_accuracy] = test_net(X_teold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltaold_acc_deltast,y_test,theta1,theta2,predictions);
+  [test_results,test_accuracy] = test_net(X_test,y_test,theta1,theta2,predictions);
   
-  confusion = confusionmat(test_results(:,1),test_results(:,2));
+  %crop off ofset (dur to how we impliment the stopping resilience
+  old_acc_delta = old_acc_delta(10:end);
+  
+    test_confusion = confusionmat(test_results(:,1),test_results(:,2));
+
+  test_confusion = confusionmat(test_results(:,1),test_results(:,2));
   time_taken = cputime() - t;
 end
