@@ -1,4 +1,4 @@
-function [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,overal_error] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,n_hidden_nodes,n_classes,weights_scale_factor,learning_rate,epochs,momentum,early_stopping_thresh,early_stopping_resilance,debug)
+function [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,time_taken,old_accuracy,overal_error,train_results,test_results] = NN_model(X_train,y_train,X_test,y_test,y_train_explode,n_hidden_nodes,n_classes,weights_scale_factor,learning_rate,epochs,momentum,early_stopping_thresh,early_stopping_resilance,debug)
 
 
   %Initialize bias as additional column vector on the front 
@@ -45,7 +45,7 @@ function [train_confusion,test_confusion,overal_confusion,train_accuracy,test_ac
       %back prop - calculate errors through network
       e3 = a3-y_train_explode(m,:)'; % calculate errors at output layer
       e2 = theta2' * e3 .* g2; % calculate errors at hidden layer 
-      overal_error = sum(abs(e3))+sum(abs(e2)); %calculate overal 
+      overal_error = mean(sum(square(e3))+sum(square(e2))); %calculate overal 
       
       %calculate deltas for each layer
       if iter == 1 && m==1
