@@ -51,6 +51,9 @@ TODO: summary table of dataset
 
 Within this study two methods are compared. Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function.
 
+![Alt text](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network")
+
+
 ## IV. Results
 
 ## V. Conclusion
