@@ -49,6 +49,8 @@ TODO: summary table of dataset
 
 ## III. Methods
 
+Within this study two methods are compared. Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function.
+
 ## IV. Results
 
 ## V. Conclusion
