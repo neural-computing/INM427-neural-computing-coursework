@@ -49,10 +49,24 @@ TODO: summary table of dataset
 
 ## III. Methods
 
-Within this study two methods are compared. Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function.
+Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function. 
 
 ![Alt text](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network")
 
+The following hyperparameter were tuned:
+* n_hidden_nodes - number of fully connected nodes within the hidden layer
+* learning_rate - rate at which the models weights are updated during the back-propagation
+* momentum - level of inertia added when modifying the models weights
+* early_stopping_thresh - smallest delta allowed when updating the models weights before training is halted
+
+
+Next a multiclass SVM model was constructed using MATLAB's "fitcecoc" method. 
+
+The following hyperparameter were tuned:
+* kernel
+* box_constraint
+* kernel_scale
+* shrinkage_period
 
 ## IV. Results
 
@@ -62,3 +76,4 @@ Within this study two methods are compared. Initially a fully connected feed-for
 
 [1] Phishing Web Site Methods https://www.webcitation.org/5w9Z2iACi?url=http://www.fraudwatchinternational.com/phishing-fraud/phishing-web-site-methods/
 [3] https://archive.ics.uci.edu/ml/datasets/Website+Phishing
+[4] 
