@@ -72,8 +72,8 @@ function [train_confusion,test_confusion,overal_confusion,train_accuracy,test_ac
     %stop if delta in accuray is less than early_stopping_thresh
     if sum(old_acc_delta(iter:iter+early_stopping_resilance-1)) < early_stopping_thresh
       if debug == true
-          display("accuracy delta less than stopping threshold - stopping training");
-          display([train_accuracy iter]);
+          disp("accuracy delta less than stopping threshold - stopping training");
+          disp([train_accuracy iter]);
       end
       break
     
