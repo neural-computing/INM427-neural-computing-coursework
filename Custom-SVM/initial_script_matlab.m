@@ -23,19 +23,24 @@ classNames = {'Phishing Event','Non-Phishing Event','Unknown'}; % Specify class 
 
 %build test/train data
 [X_train,y_train,X_test,y_test,y_train_explode] = process_data(raw,test_train_split_p);
+[X,y,X_0,y_0,y_explode] = process_data(raw,1);
 
 %convert y variables to strings
-[y_train_str,y_test_str] = convert_targets_to_strings(y_train,y_test);
+[y_str,y_train_str,y_test_str] = convert_targets_to_strings(y,y_train,y_test);
 
 %initialize some more parameters  
 total_tests = size(kernels,2) * size(box_constraints,2) * size(kernel_scales,2) * size(shrinkage_periods,2);
-overal_results = zeros(total_tests,6);
+overal_results = zeros(total_tests,7);
 wbm = waitbar(0,sprintf("Training Models (%d)", total_tests));
-train_confusions = cell(total_tests);
-test_confusions = cell(total_tests);
-overal_confusions = cell(total_tests);
-train_predictions = cell(total_tests);
-test_predictions = cell(total_tests);
+train_confusions = cell(total_tests,1);
+test_confusions = cell(total_tests,1);
+overal_confusions = cell(total_tests,1);
+train_predictions = cell(total_tests,1);
+test_predictions = cell(total_tests,1);
+cross_fold_errors = cell(total_tests,1);
+validationPredictions = cell(total_tests,1);
+kfold_confusions = cell(total_tests,1);
+
 tests = 0;
 
 %Run through tests
@@ -47,9 +52,10 @@ for kernel=kernels
                 tests = tests+1;
                 
                 %pass variables to SVM wrapper
-                [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,test_predictions_str,]...
-                    = SVM_wrapper(X_train,y_train,X_test,y_test,y_train_str,y_test_str,kernel,box_constraint,kernel_scale,shrinkage_period,...
-                    responseName,predictorNames,classNames);
+                [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,...
+                    test_predictions_str,cross_fold_error,validationPrediction,kfold_confusion]...
+                    = SVM_wrapper(X,y,y_str,X_train,y_train,X_test,y_test,y_train_str,y_test_str,kernel,box_constraint,...
+                    kernel_scale,shrinkage_period,responseName,predictorNames,classNames);
                 
                 %append results
                 train_confusions{tests} = train_confusion;
@@ -57,12 +63,15 @@ for kernel=kernels
                 overal_confusions{tests} = overal_confusion;
                 train_predictions{tests} = train_predictions_str;
                 test_predictions{tests} = test_predictions_str;
-                
+                cross_fold_errors{tests} = cross_fold_error;
+                validationPredictions{tests} = validationPrediction;
+                kfold_confusions{tests} = kfold_confusion;
+
                 %handle the fact that matrix cannot have mixed data types
                 if kernel=="linear"
-                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,1,train_accuracy,test_accuracy];
+                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,1,train_accuracy,test_accuracy,cross_fold_error];
                 else
-                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,2,train_accuracy,test_accuracy];
+                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,2,train_accuracy,test_accuracy,cross_fold_error];
                 end
                 %update waiting back
                 waitbar((tests/total_tests),wbm,sprintf("Training Models (%d/%d)", [tests,total_tests]));
@@ -75,8 +84,8 @@ end
 disp(overal_results);
 close(wbm);
 
-%pick best test
-[v,ind] = maxk(overal_results(:,6),10);
+%pick best test - use mink since this is error not accuracy
+[v,ind] = mink(overal_results(:,7),10);
 overal_results(ind,:)
 test_confusions{ind}
 
@@ -92,12 +101,14 @@ for i=1:20
 
     %pass variables to SVM wrapper
     if best_svm(4)==1
-        [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,test_predictions_str]...
-            = SVM_wrapper(X_train,y_train,X_test,y_test,y_train_str,y_test_str,"linear",best_svm(1),best_svm(2),best_svm(3),...
+        [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,...
+            test_predictions_str,cross_fold_error,validationPrediction,kfold_confusion]...
+            = SVM_wrapper(X,y,y_str,X_train,y_train,X_test,y_test,y_train_str,y_test_str,"linear",best_svm(1),best_svm(2),best_svm(3),...
             responseName,predictorNames,classNames);
     else
-        [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,test_predictions_str]...
-            = SVM_wrapper(X_train,y_train,X_test,y_test,y_train_str,y_test_str,"rbf",best_svm(1),best_svm(2),best_svm(3),...
+        [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,...
+            test_predictions_str,cross_fold_error,validationPrediction,kfold_confusion]...
+            = SVM_wrapper(X,y,y_str,X_train,y_train,X_test,y_test,y_train_str,y_test_str,"rbf",best_svm(1),best_svm(2),best_svm(3),...
             responseName,predictorNames,classNames);
     end
     best_distro(i,:) = [i,train_accuracy,test_accuracy];
@@ -139,7 +150,9 @@ labels = {'Phishing', 'Non-Phishing', 'Unknown'};
 plot_confusion(train_confusions{ind(1)},labels,"Training Set",8)
 plot_confusion(test_confusions{ind(1)},labels,"Testing Set",9)
 plot_confusion(overal_confusions{ind(1)},labels,"Overal Set",10)
+plot_confusion(kfold_confusions{ind(1)},labels,"5 Kfold Set",11)
 saveas(figure(8),"best_SVM_train_confusion.png")
 saveas(figure(9),"best_SVM_test_confusion.png")
 saveas(figure(10),"best_SVM_overal_confusion.png")
+saveas(figure(11),"best_SVM_cross_val_confusion.png")
 disp("complete")
