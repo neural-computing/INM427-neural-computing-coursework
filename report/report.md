@@ -77,7 +77,8 @@ COnfusion matrices were ploted to allow us to compare to accuracy of the classif
 
 Below are the result:
 
-Top 10 configurations for SVM:
+### Top 10 configurations for SVM.
+
 | box constraint | kernel scale | shrinkage period | Kernel | train accuracy    | test accuracy     | cross fold error  | 
 |----------------|--------------|------------------|--------|-------------------|-------------------|-------------------| 
 | 0.95           | 1            | 1                | rbf    | 0.964097148891235 | 0.847290640394089 | 0.11308203991131  | 
@@ -91,7 +92,8 @@ Top 10 configurations for SVM:
 | 0.95           | 0.7          | 4                | rbf    | 0.974656810982049 | 0.827586206896552 | 0.13008130081301  | 
 | 0.95           | 0.7          | 7                | rbf    | 0.974656810982049 | 0.827586206896552 | 0.130820399113084 | 
 
-Top 10 Configurations for NN:
+### Top 10 Configurations for NN.
+
 | n hidden node | learning rate | momentum | early stopping thresh | mean(train accuracy k) | mean(test accuracy k) | mean(time taken k) |
 |---------------|---------------|----------|-----------------------|------------------------|-----------------------|--------------------|
 | 26            | 0.046         | 0.005    | 0.001                 | 0.949629629629629      | 0.892592592592593     | 5.34200000000001   |
@@ -105,7 +107,8 @@ Top 10 Configurations for NN:
 | 30            | 0.046         | 0.03     | 0.001                 | 0.945925925925926      | 0.888888888888889     | 4.41800000000003   |
 | 22            | 0.031         | 0.005    | 0.001                 | 0.943148148148148      | 0.888148148148148     | 5.47600000000002   |
 
-Confusion Matrices for the best model in each:
+
+### Confusion Matrices for the best model in each:
 ![Alt text](../Custom-NN/best_NN_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
 
 ![Alt text](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
