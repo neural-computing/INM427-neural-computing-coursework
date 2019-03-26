@@ -30,7 +30,7 @@ classNames = {'Phishing Event','Non-Phishing Event','Unknown'}; % Specify class 
 
 %initialize some more parameters  
 total_tests = size(kernels,2) * size(box_constraints,2) * size(kernel_scales,2) * size(shrinkage_periods,2);
-overal_results = zeros(total_tests,7);
+overal_results = zeros(total_tests,8);
 wbm = waitbar(0,sprintf("Training Models (%d)", total_tests));
 train_confusions = cell(total_tests,1);
 test_confusions = cell(total_tests,1);
@@ -53,7 +53,7 @@ for kernel=kernels
                 
                 %pass variables to SVM wrapper
                 [train_confusion,test_confusion,overal_confusion,train_accuracy,test_accuracy,train_predictions_str,...
-                    test_predictions_str,cross_fold_error,validationPrediction,kfold_confusion]...
+                    test_predictions_str,cross_fold_error,validationPrediction,kfold_confusion,kfold_accuracy]...
                     = SVM_wrapper(X,y,y_str,X_train,y_train,X_test,y_test,y_train_str,y_test_str,kernel,box_constraint,...
                     kernel_scale,shrinkage_period,responseName,predictorNames,classNames);
                 
@@ -69,9 +69,9 @@ for kernel=kernels
 
                 %handle the fact that matrix cannot have mixed data types
                 if kernel=="linear"
-                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,1,train_accuracy,test_accuracy,cross_fold_error];
+                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,1,train_accuracy,test_accuracy,cross_fold_error,kfold_accuracy];
                 else
-                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,2,train_accuracy,test_accuracy,cross_fold_error];
+                    overal_results(tests,:) = [box_constraint,kernel_scale,shrinkage_period,2,train_accuracy,test_accuracy,cross_fold_error,kfold_accuracy];
                 end
                 %update waiting back
                 waitbar((tests/total_tests),wbm,sprintf("Training Models (%d/%d)", [tests,total_tests]));
@@ -84,8 +84,8 @@ end
 disp(overal_results);
 close(wbm);
 
-%pick best test - use mink since this is error not accuracy
-[v,ind] = mink(overal_results(:,7),10);
+%pick best test
+[v,ind] = maxk(overal_results(:,8),10);
 overal_results(ind,:)
 test_confusions{ind}
 

@@ -40,6 +40,6 @@ t = templateSVM('Standardize',false,'SaveSupportVectors',true,'BoxConstraint',bo
  %Build Accuracy
  train_accuracy = sum(train_predictions == y_train_str) ./ size(y_train,1);
  test_accuracy = sum(test_predictions == y_test_str) ./ size(y_test,1);
- kfold_accuracy = sum(validationPredictions_str == y) ./ size(y,1);
+ kfold_accuracy = sum(validationPredictions_str == y_str) ./ size(y_str,1);
 end
 

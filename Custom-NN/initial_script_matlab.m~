@@ -95,7 +95,7 @@ close(wbm);
 
 %pick best model cadidate using the best accuracy, print its setting and
 %its kfold test confusion matrix
-[v,ind] = maxk(overal_results(:,6),5);
+[v,ind] = maxk(overal_results(:,6),10);
 overal_results(ind,:)
 test_confusions{ind}
 
@@ -110,6 +110,7 @@ for k=1:num_folds
     x = 1:epochs;
     plot(x,accuracy_per_epoch_k(:,k,ind(1)),'DisplayName', sprintf('Epoch: %d',k))
 end
+
 xlabel("Epochs");
 ylabel("Training Accuracy");
 grid on
@@ -127,6 +128,7 @@ writematrix(overal_results,"NN_model_results.csv")
 writematrix(overal_results(ind,:),"NN_top_10.csv")
 
 disp("saving  confusion plots")
+
 %plot and save confusion matrix for best model
 labels = {'Phishing', 'Non-Phishing', 'Unknown'};
 plot_confusion(train_confusions{ind(1)},labels,"Training Set",4)
