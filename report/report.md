@@ -109,8 +109,10 @@ Below are the result:
 
 
 ### Confusion Matrices for the best model in each:
+Neural Net
 ![Alt text](../Custom-NN/best_NN_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
 
+SVM
 ![Alt text](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
 
 ## V. Conclusion
