@@ -106,9 +106,9 @@ Top 10 Configurations for NN:
 | 22            | 0.031         | 0.005    | 0.001                 | 0.943148148148148      | 0.888148148148148     | 5.47600000000002   | 
 
 Confusion Matrices for the best model in each:
-![Alt text](../../Custom-NN/best_NN_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
+![Alt text](../Custom-NN/best_NN_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
 
-![Alt text](../../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
+![Alt text](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
 
 ## V. Conclusion
 
