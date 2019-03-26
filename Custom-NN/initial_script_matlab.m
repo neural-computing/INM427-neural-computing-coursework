@@ -95,7 +95,7 @@ close(wbm);
 
 %pick best model cadidate using the best accuracy, print its setting and
 %its kfold test confusion matrix
-[v,ind] = maxk(overal_results(:,6),5);
+[v,ind] = maxk(overal_results(:,6),10);
 overal_results(ind,:)
 test_confusions{ind}
 

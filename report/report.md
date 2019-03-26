@@ -68,7 +68,47 @@ The following hyperparameter were tuned:
 * kernel_scale
 * shrinkage_period
 
+
+Cross validation was employed with 5 folds to try and give a better understanding of how well the data models would generalize despite the relatively small datasets.
+
+COnfusion matrices were ploted to allow us to compare to accuracy of the classifiers
 ## IV. Results
+128 models were run for both the Neural Net and SVM.
+
+Below are the result:
+
+Top 10 configurations for SVM:
+| box_constraint | kernel_scale | shrinkage_period | Kernel | train_accuracy    | test_accuracy     | cross_fold_error  | 
+|----------------|--------------|------------------|--------|-------------------|-------------------|-------------------| 
+| 0.95           | 1            | 1                | rbf    | 0.964097148891235 | 0.847290640394089 | 0.11308203991131  | 
+| 0.95           | 1            | 4                | rbf    | 0.964097148891235 | 0.847290640394089 | 0.118994826311901 | 
+| 0.95           | 1            | 10               | rbf    | 0.964097148891235 | 0.847290640394089 | 0.119733924611975 | 
+| 0.65           | 1            | 7                | rbf    | 0.953537486800422 | 0.852216748768473 | 0.12269031781227  | 
+| 0.95           | 1            | 7                | rbf    | 0.964097148891235 | 0.847290640394089 | 0.122690317812271 | 
+| 0.65           | 1            | 10               | rbf    | 0.953537486800422 | 0.852216748768473 | 0.125646711012566 | 
+| 0.65           | 1            | 4                | rbf    | 0.953537486800422 | 0.852216748768473 | 0.12638580931264  | 
+| 0.95           | 0.7          | 10               | rbf    | 0.974656810982049 | 0.827586206896552 | 0.129342202512936 | 
+| 0.95           | 0.7          | 4                | rbf    | 0.974656810982049 | 0.827586206896552 | 0.13008130081301  | 
+| 0.95           | 0.7          | 7                | rbf    | 0.974656810982049 | 0.827586206896552 | 0.130820399113084 | 
+
+Top 10 Configurations for NN:
+| n_hidden_node | learning_rate | momentum | early_stopping_thresh | mean(train_accuracy_k) | mean(test_accuracy_k) | mean(time_taken_k) | 
+|---------------|---------------|----------|-----------------------|------------------------|-----------------------|--------------------| 
+| 26            | 0.046         | 0.005    | 0.001                 | 0.949629629629629      | 0.892592592592593     | 5.34200000000001   | 
+| 26            | 0.046         | 0.03     | 0.001                 | 0.939814814814815      | 0.892592592592593     | 4.18000000000002   | 
+| 34            | 0.046         | 0.005    | 0.001                 | 0.949814814814815      | 0.892592592592592     | 4.62199999999993   | 
+| 34            | 0.031         | 0.03     | 0.001                 | 0.945185185185185      | 0.891111111111111     | 5.52799999999997   | 
+| 18            | 0.046         | 0.03     | 0.001                 | 0.941111111111111      | 0.891111111111111     | 4.27600000000002   | 
+| 34            | 0.046         | 0.03     | 0.001                 | 0.943518518518518      | 0.891111111111111     | 3.96800000000003   | 
+| 30            | 0.046         | 0.005    | 0.001                 | 0.949074074074074      | 0.89037037037037      | 4.56399999999994   | 
+| 22            | 0.046         | 0.005    | 0.001                 | 0.942777777777778      | 0.888888888888889     | 3.77399999999998   | 
+| 30            | 0.046         | 0.03     | 0.001                 | 0.945925925925926      | 0.888888888888889     | 4.41800000000003   | 
+| 22            | 0.031         | 0.005    | 0.001                 | 0.943148148148148      | 0.888148148148148     | 5.47600000000002   | 
+
+Confusion Matrices for the best model in each:
+![Alt text](../../Custom-NN/best_NN_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
+
+![Alt text](../../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
 
 ## V. Conclusion
 
