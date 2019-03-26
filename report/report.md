@@ -9,7 +9,7 @@ Repo:
 
 ## Abstract
 
-This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are ... some neural network ... and random forest. ... Summary of methodology used ... ... Summary of evaluation techniques ... ... Which model performed better? ... 
+This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are a feed-forward neural network SVM classifier. ... Summary of methodology used ... ... Summary of evaluation techniques ... ... Which model performed better? ... 
 
 TODO: Check name of models
 
@@ -17,7 +17,7 @@ TODO: Check name of models
 
 Phishing websites represent a subset of the wider phishing problem. In general, phishing relates to any attempt to fraudulently obtain sensitive personal information in an electronic communication. Phishing websites are websites that trick users into believing they are on an otherwise legitimate website, typically using a range of frontend web technologies in order to gain this information [1]. This is an increasingly important problem due to the increasing reliance on web-based services.
 
-This paper aims to evaluate the performance of two models in the task of identifying phishing websites based on 9 features. The models considered in this paper belong to feed-forward neural networks and random forest family of models. ... something about cross validation ... 
+This paper aims to evaluate the performance of two models in the task of identifying phishing websites based on 9 features. The models considered in this paper belong to feed-forward neural networks and support vector machine (SVM) family of models. We use cross-validation to perform hyperparameter tuning from the parameter space.
 
 The paper is organised as follows, section 2 provides an exploratory overview of the dataset used in the project, section 3 details the approach taken in the project to train and compare the models, section 4 discusses the results of the previous process, with section 5 providing a final conclusion.
 
@@ -29,11 +29,11 @@ TODO: Maybe change discussion of model training?
 
 They are high performing models in supervised tasks especially where the dataset is large, high dimensional, and unstructured.
 
-### II.II Random Forest (RF)
+### II.II Support Vector Machine (SVM)
 
-Random forest models and an ensemble technique, which can be applied to a classification task. It can be understood as aggregating the result of many "shallow" decision trees, such that the final error will be much smaller than a single equivalent decision tree.
+Support vector machine (SVM) classifiers determine hyperplane of maxmimum margin separating the classes of the dataset. SVM is appropriate for finding nonlinear boundaries, even in case of high-dimensional datasets using a kernel function. Can be generalised to non-binary classification problems by following either one-vs-one or one-vs-all classification algorithm.
 
-The main advantages of random forest models are they typically able to avoid overfitting as well as handle missing values and outliers without prior data preprocessing. Compared to neural networks, random forests can often boast better performance for more structured, lower dimensional datasets.
+Compared to a feed-forward neural network, SVM classifiers operate similarly to a shallow neural network. SVM are generally thought to produce more easily understandable models.
 
 ## II. Dataset
 
