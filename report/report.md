@@ -37,13 +37,27 @@ Compared to a feed-forward neural network, SVM classifiers operate similarly to 
 
 ## II. Dataset
 
-The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [3]. The dataset contains features corresponding to 1353 websites, classed as either legitimate, suspicious, or phishy, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for legitamate, phishy and suspicious samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods.
+The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [3]. The dataset contains features corresponding to 1353 websites, classed as either legitimate, suspicious, or phishy, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for legitimate, phishy and suspicious samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods.
 
 ??? Require considering phishy and suspicious together
 
 The values for each feature are scaled to -1, 0, and 1 so no further feature engineering was required.
 
 TODO: summary table of dataset
+
+| Class               | Legitimate (548)                 | Phishy (702)                     | Suspicious (103)                 |
+| ------------------- | -------------------------------- | -------------------------------- | -------------------------------- |
+| Predictor Variables | Legitimate | Suspicious | Phishy | Legitimate | Suspicious | Phishy | Legitimate | Suspicious | Phishy |
+| ------------------- | -------------------------------- | -------------------------------- | -------------------------------- |
+| SFH                 |
+| popUpWidnow         |
+| SSLfinal_State      |
+| Request_URL         |
+| URL_of_Anchor       |
+| web_traffic         |
+| URL_Length          |
+| age_of_domain       |
+| having_IP_Address   |
 
 ### II.I Exploratory Data Analysis
 
