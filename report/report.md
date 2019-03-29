@@ -9,9 +9,7 @@ Repo: https://github.com/neural-computing/INM427-neural-computing-coursework
 
 ## Abstract
 
-This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are a feed-forward neural network SVM classifier. ... Summary of methodology used ... ... Summary of evaluation techniques ... ... Which model performed better? ... 
-
-TODO: Check name of models
+This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are a feed-forward neural network and support vector machine classifier. For each model, k-fold cross-validation was performed to determine the best configuration of hyperparameters in training. The performance of each trained model was then checked against a test set, using a confusion matrix and other derived metrics. Against these evaluation metrics, SVM demonstrates superior performance for this dataset.
 
 ## I. Introduction
 
