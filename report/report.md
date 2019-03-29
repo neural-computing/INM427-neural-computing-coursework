@@ -117,6 +117,7 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 | 30            | 0.046         | 0.03     | 0.001                 | 0.945925925925926      | 0.888888888888889     | 4.41800000000003   |
 | 22            | 0.031         | 0.005    | 0.001                 | 0.943148148148148      | 0.888148148148148     | 5.47600000000002   |
 
+From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box_constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical kfold test accuracies. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
 
 ### IV.II Model Comparison
 
@@ -157,6 +158,10 @@ Conclusion of two model comparison ... need to discuss
 Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the precision of the legitimate class can be considered as a single optimising metric for either model.
 
 Extensions ... 
+
+Ensemble methods generally give better performance - rather than comparing, maybe the two methods could be used in conjunction to achieve a better overal performance.
+
+models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
 
 ## VI. References
 
