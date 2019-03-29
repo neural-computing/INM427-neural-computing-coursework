@@ -134,10 +134,12 @@ Considering the accuracy alone, we see very comparable performances between the 
 
 |     | Accuracy                   |
 | --- | -------------------------- |
-| FNN | 85.9%                      |
+| FNN | 89.3%                      |
 | SVM | 88.8%                      |
 
-However, given the nature of the problem under investigation, determining whether a website is phishy or not, it can be considered that the best model is the one that minimises the number of web sites wrongly classified as legitimate i.e. minimises number of false negatives for legitimate/non-phishy class. This is precisely because, in optimising for the lowest number of websites wrongly classfied as non-phishy we can ensure the safest experience for a user: a website classified as phishy/suspicious can always be investigated further.
+The feedforward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".However when determining whether a website is phishy or not, it can be considered that the best model is the one that minimises the number of web sites wrongly classified as legitimate i.e. minimises number of false negatives for legitimate/non-phishy class. This is precisely because, in optimising for the lowest number of websites wrongly classfied as non-phishy we can ensure the safest experience for a user: a website classified as phishy/suspicious can always be investigated further.
+
+(MARK: I AM NOT SURE THAT I AGREE COMPLETELY. I AGREE THIS IS IMPORTANT BUT EQUALLY WE NEED TO ALSO MAXIMISE THE WEBSITES CORRECTLY CLASSIFIED SINCE OTHERWISE WE COULD SAVELY PREDICT EVERYTHING AS PHISHY)
 
 |     | Legitimate Class Precision |
 | --- | -------------------------- |
