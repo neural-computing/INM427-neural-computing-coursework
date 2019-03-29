@@ -5,7 +5,7 @@ Mark Longhurst & Thomas Martin
 
 29th March 2019
 
-Repo: 
+Repo: https://github.com/neural-computing/INM427-neural-computing-coursework
 
 ## Abstract
 
