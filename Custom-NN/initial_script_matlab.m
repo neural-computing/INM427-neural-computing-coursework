@@ -27,11 +27,13 @@ total_tests = size(learning_rates,2) * size(momentums,2) * size(early_stopping_t
 disp(total_tests);
 overal_results = zeros(total_tests,7);
 wbm = waitbar(0,sprintf("Training Models (%d)", total_tests));
-train_confusions = cell(total_tests);
-test_confusions = cell(total_tests);
-overal_confusions = cell(total_tests);
-train_predictions = cell(total_tests);
-test_predictions = cell(total_tests);
+train_confusions = cell(total_tests,1);
+test_confusions = cell(total_tests,1);
+overal_confusions = cell(total_tests,1);
+train_predictions = cell(total_tests,1);
+test_predictions = cell(total_tests,1);
+test_confusions_sum = cell(total_tests,1);
+
 accuracy_per_epoch_k = zeros(epochs,num_folds,total_tests);
 
 %how stable is the network? we see that 
@@ -82,6 +84,7 @@ for learning_rate=learning_rates
                 %capture confusion matrix averaged over k folds
                 train_confusions{tests} = mean(train_confusion,3);
                 test_confusions{tests} = mean(test_confusion,3);
+                test_confusions_sum{tests} = sum(test_confusion,3);
                 overal_confusions{tests} = mean(overal_confusion,3);
                 train_predictions{tests} = train_predictions;
                 test_predictions{tests} = test_predictions;
@@ -132,9 +135,11 @@ disp("saving  confusion plots")
 %plot and save confusion matrix for best model
 labels = {'Phishing', 'Non-Phishing', 'Unknown'};
 plot_confusion(train_confusions{ind(1)},labels,"Training Set",4)
-plot_confusion(test_confusions{ind(1)},labels,"Testing Set",5)
+plot_confusion(test_confusions{ind(1)},labels,"Testing Set",7)
+plot_confusion(test_confusions_sum{ind(1)},labels,"5 Kfold set",5)
 plot_confusion(overal_confusions{ind(1)},labels,"Overal Set",6)
 saveas(figure(4),"best_NN_train_confusion.png")
-saveas(figure(5),"best_NN_kfold_test_confusion_compare_this.png")
+saveas(figure(5),"best_NN_kfold_average_test_confusion_compare_this.png")
 saveas(figure(6),"best_NN_overal_confusion.png")
+saveas(figure(7),"best_NN_kfold_sum_test_confusion_compare_this.png")
 disp("complete")
