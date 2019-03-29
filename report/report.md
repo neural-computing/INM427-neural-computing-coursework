@@ -7,6 +7,8 @@ Mark Longhurst & Thomas Martin
 
 Repo: https://github.com/neural-computing/INM427-neural-computing-coursework
 
+TODO: add more references
+
 ## Abstract
 
 This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are a feed-forward neural network and support vector machine classifier. For each model, k-fold cross-validation was performed to determine the best configuration of hyperparameters in training. The performance of each trained model was then checked against a test set, using a confusion matrix and other derived metrics. Against these evaluation metrics, SVM demonstrates superior performance for this dataset.
@@ -51,7 +53,7 @@ During the training process, grid search was used to select the optimal hyperpar
 
 Cross validation was employed with 5 folds to try and give a better understanding of how well the data models would generalize despite the relatively small datasets.
 
-COnfusion matrices were ploted to allow us to compare to accuracy of the classifiers
+To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric (MOVE DISCUSSION TO THIS SECTION). Such an approach also helps given there is a large class imbalance, which accuracy considered alone could lead to a biased classifier.
 
 ... Something about evaluating the two models as the test stage ...
 
@@ -75,9 +77,11 @@ What is general approach?
 
 The following hyperparameter were tuned:
 * kernel
-* box_constraint
+* box_constraint https://stackoverflow.com/questions/31161075/svm-in-matlab-meaning-of-parameter-box-constraint-in-function-fitcsvm/31171332
 * kernel_scale
 * shrinkage_period
+
+To evaluate the correct classification for multiclass case, one-vs-all algorithm was used.
 
 
 ## IV. Results
@@ -144,8 +148,8 @@ The feedforward network out performs the SVM model by about 0.5% and it appears 
 
 |     | Legitimate Class Precision |
 | --- | -------------------------- |
-| FNN | 68.8%                      |
-| SVM | 84.6%                      |
+| FNN | 82.4%                      |
+| SVM | 53.4%                      |
 
 From this perspective, it can be argued that the SVM model performed much better than the FNN model
 
