@@ -68,9 +68,9 @@ for learning_rate=learning_rates
                     
                     %capture variables
                     train_accuracy_k(k) = train_accuracy; test_accuracy_k(k) = test_accuracy; time_taken_k(k) = time_taken;
-                    train_confusion_k(:,:,num_folds) = train_confusion;
-                    test_confusion_k(:,:,num_folds) = test_confusion;
-                    overal_confusion_k(:,:,num_folds) = overal_confusion;
+                    train_confusion_k(:,:,k) = train_confusion;
+                    test_confusion_k(:,:,k) = test_confusion;
+                    overal_confusion_k(:,:,k) = overal_confusion;
                     padding = [accuracy_per_epoch ; nan(150-size(accuracy_per_epoch,1),1)];
                     accuracy_per_epoch_k(:,k,tests) = padding(1:150);
                     
@@ -82,10 +82,10 @@ for learning_rate=learning_rates
                 overal_results(tests,:) = [n_hidden_node,learning_rate,momentum,early_stopping_thresh,mean(train_accuracy_k),mean(test_accuracy_k),mean(time_taken_k)];
                 
                 %capture confusion matrix averaged over k folds
-                train_confusions{tests} = mean(train_confusion,3);
-                test_confusions{tests} = mean(test_confusion,3);
-                test_confusions_sum{tests} = sum(test_confusion,3);
-                overal_confusions{tests} = mean(overal_confusion,3);
+                train_confusions{tests} = mean(train_confusion_k,3);
+                test_confusions{tests} = mean(test_confusion_k,3);
+                test_confusions_sum{tests} = sum(test_confusion_k,3);
+                overal_confusions{tests} = mean(overal_confusion_k,3);
                 train_predictions{tests} = train_predictions;
                 test_predictions{tests} = test_predictions;
 
