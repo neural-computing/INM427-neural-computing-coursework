@@ -41,7 +41,7 @@ This sections outlines the general approach taken to train and test either model
 
 For both models, the initial dataset was split into a training and testing dataset in a proportion of 70% and 30% respectively.
 
-During the initial training process, grid-search cross-validation was used to select the optimal hyperparameter configuration. The specific process used was k-fold cross validation, where k was taken as 5. Cross-validation is especially useful to get a better understanding of how well the data models generalise in the case of relatively small datasets - the original dataset has ~1000 rows. Mean test accuracy was used to determine the optimal set of hyperparameters for each model.
+During the initial training process, grid-search cross-validation was used to select the optimal hyperparameter configuration. The specific process used was k-fold cross validation, where k was taken as 5. Cross-validation is especially useful to get a better understanding of how well the data models remain unbiased and generalise in the case of relatively small datasets - the original dataset has ~1000 rows. Mean test accuracy was used to determine the optimal set of hyperparameters for each model.
 
 To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric 
 
@@ -53,89 +53,78 @@ Such an approach also helps given there is a large class imbalance, which accura
 
 ### III.II Feed-Forward Neural Network (FNN)
 
-* Learning algorithm
-* Output function
-* Error/loss function
-* Number of output nodes
-* Weight initialisation
-* Number of epochs
-* Early stopping criteria - avoid overfitting
-* K-fold cross validation
-* Number of checks, min training performance, number of epochs
-
 
 Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively.
 
 ![Feed Forward Neural Network](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
 
-The weights of the network were updated follow a backpropagation algorithm
+Weights were randomly initialised for each epoch within a given threshold, to ensure that networks weights can reach different minima for each run. The weights of the network were updated following a backpropagation algorithm, updating weights according to the mean squared error of the output layer nodes. An early stopping threshold was also set to ensure the training was stopped for a given epoch if the updated accuracy changed little from its previous value.
 
 During the training stage, the following hyperparameter were tuned:
 
-* n_hidden_nodes - number of fully connected nodes within the hidden layer, varied at increments of 5 between 10 and 60
-* learning_rate - rate at which the models weights are updated during the back-propagation, varied at increments of 0.05, between 0.001 and 0.1
-* momentum - level of inertia added when modifying the models weights, varied at increments of 0.025, between 0.005 and 0.05
-* early_stopping_thresh - smallest delta allowed when updating the models weights before training is halted
+* Hidden nodes - number of fully connected nodes within the hidden layer, varied at increments of 5 between 10 and 60
+* Learning rate - rate at which the models weights are updated during the back-propagation, varied at increments of 0.05, between 0.001 and 0.1
+* Momentum - level of inertia added when modifying the models weights, varied at increments of 0.025, between 0.005 and 0.05
+* Early stopping threshold - smallest delta allowed when updating the models weights before training is halted, this varid as increments of 0.05, between 0.001 and 0.1
 
 ### III.III Support Vector Machine (SVM)
 
-Next a multiclass SVM model was constructed using MATLAB's "fitcecoc" method. 
+Next a multiclass SVM model was constructed using MATLAB's "fitcecoc" method. The SVM state is completely defined by the initial hyperparameter set. Given that the task is a mutliclass classification problem, a one-vs-all algorithm was used to produce the classifications.
 
-What is general approach?
+The following hyperparameters were tuned:
 
-The following hyperparameter were tuned:
-* kernel
-* box_constraint https://stackoverflow.com/questions/31161075/svm-in-matlab-meaning-of-parameter-box-constraint-in-function-fitcsvm/31171332
-* kernel_scale
-* shrinkage_period
+TODO Define kernel_scale and shrinkage_period
 
-To evaluate the correct classification for multiclass case, one-vs-all algorithm was used.
-
+* Kernel - this determines how the SVM performs comparisons between datapoints to determine the hyperplane of maximum margin. The selection available consisted of linear, RBF, and polynomial kernels
+* Box Constraint - this controls the penalty on data-points that are misclassfied by the margin and overall helps with overfitting. Increasing the box constraint will reduce the number of support vectors the SVM margin uses. This was varied between 0.05 and 1, at increments of 0.3
+* Kernel scale - ... This was varied between 0.1 and 1, at increments of 0.3
+* Shrinkage period - ... This was varied between 1 and 10, at increments of 3
 
 ## IV. Results
 
 ### IV.I Model Selection
 
-In total, 128 models were run for both the Neural Net and SVM. The following tables reproduces the top ten configurations for both models, ordered by kfold/mean test accuracy.
-
+In total, 128 models were run for both the Neural Net and SVM. The following tables reproduces the top ten configurations for both models, ordered by  test accuracy.
 
 #### Top 10 Configurations for SVM
 
-| box constraint | kernel scale | shrinkage period | kernel | train accuracy    | test accuracy     | cross fold error  | kfold accuracy    |
-|----------------|--------------|------------------|--------|-------------------|-------------------|-------------------|-------------------|
-| 0.65           | 1            | 10               | rbf    | 0.939809926082365 | 0.876847290640394 | 0.112342941611236 | 0.887657058388766 |
-| 0.95           | 1            | 10               | rbf    | 0.953537486800422 | 0.881773399014778 | 0.115299334811531 | 0.88470066518847  |
-| 0.65           | 1            | 1                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.116038433111605 | 0.883961566888396 |
-| 0.95           | 1            | 7                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.116038433111605 | 0.883961566888396 |
-| 0.95           | 1            | 4                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.116777531411679 | 0.883222468588322 |
-| 0.95           | 1            | 1                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.117516629711753 | 0.882483370288248 |
-| 0.65           | 1            | 7                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.118994826311901 | 0.8810051736881   |
-| 0.95           | 0.7          | 4                | rbf    | 0.960929250263992 | 0.876847290640394 | 0.123429416112344 | 0.876570583887657 |
-| 0.65           | 1            | 4                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.127864005912788 | 0.872135994087214 |
-| 0.95           | 0.7          | 7                | rbf    | 0.960929250263992 | 0.876847290640394 | 0.129342202512936 | 0.870657797487066 |
+TODO: Out of "Train Accuracy" and "K-fold Accuracy", which makes most sense to keep? I think they should be reporting the same kind of thing if I understand correctly
+
+| Box Constraint | Kernel Scale | Shrinkage Period | Kernel | Train Accuracy    | Test Accuracy     | K-fold Accuracy   |
+|----------------|--------------|------------------|--------|-------------------|-------------------|-------------------|
+| 0.65           | 1            | 10               | rbf    | 0.939809926082365 | 0.876847290640394 | 0.887657058388766 |
+| 0.95           | 1            | 10               | rbf    | 0.953537486800422 | 0.881773399014778 | 0.88470066518847  |
+| 0.65           | 1            | 1                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.883961566888396 |
+| 0.95           | 1            | 7                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.883961566888396 |
+| 0.95           | 1            | 4                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.883222468588322 |
+| 0.95           | 1            | 1                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.882483370288248 |
+| 0.65           | 1            | 7                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.8810051736881   |
+| 0.95           | 0.7          | 4                | rbf    | 0.960929250263992 | 0.876847290640394 | 0.876570583887657 |
+| 0.65           | 1            | 4                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.872135994087214 |
+| 0.95           | 0.7          | 7                | rbf    | 0.960929250263992 | 0.876847290640394 | 0.870657797487066 |
 
 #### Top 10 Configurations for FNN
 
-| n hidden node | learning rate | momentum | early stopping thresh | mean(train accuracy k) | mean(test accuracy k) | mean(time taken k) |
-|---------------|---------------|----------|-----------------------|------------------------|-----------------------|--------------------|
-| 26            | 0.046         | 0.005    | 0.001                 | 0.949629629629629      | 0.892592592592593     | 5.34200000000001   |
-| 26            | 0.046         | 0.03     | 0.001                 | 0.939814814814815      | 0.892592592592593     | 4.18000000000002   |
-| 34            | 0.046         | 0.005    | 0.001                 | 0.949814814814815      | 0.892592592592592     | 4.62199999999993   |
-| 34            | 0.031         | 0.03     | 0.001                 | 0.945185185185185      | 0.891111111111111     | 5.52799999999997   |
-| 18            | 0.046         | 0.03     | 0.001                 | 0.941111111111111      | 0.891111111111111     | 4.27600000000002   |
-| 34            | 0.046         | 0.03     | 0.001                 | 0.943518518518518      | 0.891111111111111     | 3.96800000000003   |
-| 30            | 0.046         | 0.005    | 0.001                 | 0.949074074074074      | 0.89037037037037      | 4.56399999999994   |
-| 22            | 0.046         | 0.005    | 0.001                 | 0.942777777777778      | 0.888888888888889     | 3.77399999999998   |
-| 30            | 0.046         | 0.03     | 0.001                 | 0.945925925925926      | 0.888888888888889     | 4.41800000000003   |
-| 22            | 0.031         | 0.005    | 0.001                 | 0.943148148148148      | 0.888148148148148     | 5.47600000000002   |
+| Hidden Layer Nodes | Learning Rate | Momentum | Early Stopping Threshold | Train Accuracy    | Test Accuracy     |
+|--------------------|---------------|----------|--------------------------|-------------------|-------------------|
+| 26                 | 0.046         | 0.005    | 0.001                    | 0.949629629629629 | 0.892592592592593 |
+| 26                 | 0.046         | 0.03     | 0.001                    | 0.939814814814815 | 0.892592592592593 |
+| 34                 | 0.046         | 0.005    | 0.001                    | 0.949814814814815 | 0.892592592592592 |
+| 34                 | 0.031         | 0.03     | 0.001                    | 0.945185185185185 | 0.891111111111111 |
+| 18                 | 0.046         | 0.03     | 0.001                    | 0.941111111111111 | 0.891111111111111 |
+| 34                 | 0.046         | 0.03     | 0.001                    | 0.943518518518518 | 0.891111111111111 |
+| 30                 | 0.046         | 0.005    | 0.001                    | 0.949074074074074 | 0.89037037037037  |
+| 22                 | 0.046         | 0.005    | 0.001                    | 0.942777777777778 | 0.888888888888889 |
+| 30                 | 0.046         | 0.03     | 0.001                    | 0.945925925925926 | 0.888888888888889 |
+| 22                 | 0.031         | 0.005    | 0.001                    | 0.943148148148148 | 0.888148148148148 |
 
 From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box_constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical kfold test accuracies. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
 
 ### IV.II Model Comparison
 
-To determine the most effective model for this dataset a confusion matrix was produced using the best model choice on the test data. Accuracy is reported for the test set only, which is defined as the percentage of true positives identified over all classes out of the total samples considered.
-
 Talk about training error ... 
+
+To determine the most effective model for this dataset a confusion matrix was produced using the best model choice on the test data. Accuracy is reported for the test set only, which is defined as the percentage of true positives identified over all classes out of the total samples considered.
 
 Neural Net
 ![Alt text](../Custom-NN/best_NN_kfold_sum_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
