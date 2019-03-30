@@ -118,11 +118,11 @@ TODO: Out of "Train Accuracy" and "K-fold Accuracy", which makes most sense to k
 | 30                 | 0.046         | 0.03     | 0.001                    | 0.945925925925926 | 0.888888888888889 |
 | 22                 | 0.031         | 0.005    | 0.001                    | 0.943148148148148 | 0.888148148148148 |
 
-From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box_constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical kfold test accuracies. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
+From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
 
 ### IV.II Model Comparison
 
-Talk about training error ... 
+The reported training accuracy for the most successful configurations for both models indicates that FNN performed better overall, if only slightly: 94.96% v 93.89%. More interesting perhaps is the choice of hyperparameters that produced the top performing models. In particular, the RBF kernel was the best kernel choice for the SVM classifier. The FNN demonstrated a high variability in the number of hidden layer nodes which produced the best performance.
 
 To determine the most effective model for this dataset a confusion matrix was produced using the best model choice on the test data. Accuracy is reported for the test set only, which is defined as the percentage of true positives identified over all classes out of the total samples considered.
 
@@ -141,7 +141,12 @@ Considering the accuracy alone, we see very comparable performances between the 
 
 The feedforward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".However when determining whether a website is phishy or not, it can be considered that the best model is the one that minimises the number of web sites wrongly classified as legitimate i.e. minimises number of false negatives for legitimate/non-phishy class. This is precisely because, in optimising for the lowest number of websites wrongly classfied as non-phishy we can ensure the safest experience for a user: a website classified as phishy/suspicious can always be investigated further.
 
-(MARK: I AM NOT SURE THAT I AGREE COMPLETELY. I AGREE THIS IS IMPORTANT BUT EQUALLY WE NEED TO ALSO MAXIMISE THE WEBSITES CORRECTLY CLASSIFIED SINCE OTHERWISE WE COULD SAVELY PREDICT EVERYTHING AS PHISHY)
+TODO: Discuss recall
+
+|     | Phishy Class Recall        |
+| --- | -------------------------- |
+| FNN | 90.7%                      |
+| SVM | 92.3%                      |
 
 |     | Legitimate Class Precision |
 | --- | -------------------------- |
