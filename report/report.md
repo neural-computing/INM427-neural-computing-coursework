@@ -41,24 +41,40 @@ This sections outlines the general approach taken to train and test either model
 
 For both models, the initial dataset was split into a training and testing dataset in a proportion of 70% and 30% respectively.
 
-During the training process, grid search was used to select the optimal hyperparameter. The specific process used was k-fold cross validation, where k was taken as 5. Mean test accuracy was used to determine the optimal set of hyperparameters.
+During the initial training process, grid-search cross-validation was used to select the optimal hyperparameter configuration. The specific process used was k-fold cross validation, where k was taken as 5. Cross-validation is especially useful to get a better understanding of how well the data models generalise in the case of relatively small datasets - the original dataset has ~1000 rows. Mean test accuracy was used to determine the optimal set of hyperparameters for each model.
 
-Cross validation was employed with 5 folds to try and give a better understanding of how well the data models would generalize despite the relatively small datasets.
+To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric 
 
-To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric (MOVE DISCUSSION TO THIS SECTION). Such an approach also helps given there is a large class imbalance, which accuracy considered alone could lead to a biased classifier.
+... MOVE DISCUSSION TO THIS SECTION ... .
+
+Such an approach also helps given there is a large class imbalance, which accuracy considered alone could lead to a biased classifier.
 
 ... Something about evaluating the two models as the test stage ...
 
 ### III.II Feed-Forward Neural Network (FNN)
 
-Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function. 
+* Learning algorithm
+* Output function
+* Error/loss function
+* Number of output nodes
+* Weight initialisation
+* Number of epochs
+* Early stopping criteria - avoid overfitting
+* K-fold cross validation
+* Number of checks, min training performance, number of epochs
+
+
+Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively.
 
 ![Feed Forward Neural Network](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
 
-The following hyperparameter were tuned:
-* n_hidden_nodes - number of fully connected nodes within the hidden layer
-* learning_rate - rate at which the models weights are updated during the back-propagation
-* momentum - level of inertia added when modifying the models weights
+The weights of the network were updated follow a backpropagation algorithm
+
+During the training stage, the following hyperparameter were tuned:
+
+* n_hidden_nodes - number of fully connected nodes within the hidden layer, varied at increments of 5 between 10 and 60
+* learning_rate - rate at which the models weights are updated during the back-propagation, varied at increments of 0.05, between 0.001 and 0.1
+* momentum - level of inertia added when modifying the models weights, varied at increments of 0.025, between 0.005 and 0.05
 * early_stopping_thresh - smallest delta allowed when updating the models weights before training is halted
 
 ### III.III Support Vector Machine (SVM)
