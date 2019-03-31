@@ -29,7 +29,8 @@ Support vector machine (SVM) classifiers determine the classification of data po
 
 ## II. Dataset
 
-The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 8 features and target contained within this dataset were:
+The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 9 features and target contained within this dataset were:
+
 * SFH
 * popUpWidnow
 * SSLfinal_State
@@ -41,7 +42,11 @@ The dataset used in this study was taken from the UCI Machine Learning Repositor
 * having_IP_Address
 * Result
 
+<<<<<<< HEAD
 All features take one of 3 values 1, 0 and -1 and the framework that was originally used to produce them is explained within [8].
+=======
+All features are have one of 3 values 1, 0 and -1 and the framework that was originally used to produce them is explained within [8].
+>>>>>>> Update references
 
 ## III. Methodology
 
@@ -184,12 +189,12 @@ Although this paper demonstrated that the two models independently have good per
 
 ## VI. References
 
-[1] Phishing https://en.wikipedia.org/wiki/Phishing
-[2] Phishing Web Site Methods https://www.webcitation.org/5w9Z2iACi?url=http://www.fraudwatchinternational.com/phishing-fraud/phishing-web-site-methods/
-[3] https://cs.stanford.edu/people/eroberts/courses/soco/projects/neural-networks/Architecture/feedforward.html
-[4] https://towardsdatascience.com/introduction-to-neural-networks-advantages-and-applications-96851bd1a207
-[5] https://core.ac.uk/download/pdf/6302770.pdf
-[6] https://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html
-[7] Website Phishing Data Set, https://archive.ics.uci.edu/ml/datasets/Website+Phishing
-[8] Abdelhamid, Neda & Ayesh, Aladdin & Thabtah, Fadi. (2014). Phishing detection based Associative Classification data mining. Expert Systems with Applications. 41. 5948–5959. 10.1016/j.eswa.2014.03.019.
-[9] https://blog.statsbot.co/ensemble-learning-d1dcd548e936
+[1] Wikipedia contributors. "Phishing." Wikipedia. Last accessed 29th March 2019
+[2] "Phishing Web Site Methods", https://www.webcitation.org/5w9Z2iACi?url=http://www.fraudwatchinternational.com/phishing-fraud/phishing-web-site-methods/. Last accessed 27th March 2019
+[3] "Feed-Forward Networks", https://cs.stanford.edu/people/eroberts/courses/soco/projects/neural-networks/Architecture/feedforward.html. Last accessed 27th March 2019
+[4] J. Mahanta, "Introduction to Neural Networks, Advantages and Applications", https://towardsdatascience.com/introduction-to-neural-networks-advantages-and-applications-96851bd1a207. Last accessed 30th March 2019
+[5] L. Auria & R. A. Moro. (2008). "Support Vector Machines (SVM) as a Technique for Solvency Analysis". German Institute for Economic Research
+[6] https://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html. Last accessed 29th March 2019
+[7] N, Abdelhamid, Website Phishing Data Set, https://archive.ics.uci.edu/ml/datasets/Website+Phishing. Last accessed 21st March 2019
+[8] Abdelhamid, Neda & Ayesh, Aladdin & Thabtah, Fadi. (2014). "Phishing detection based Associative Classification data mining". Expert Systems with Applications. 41. 5948–5959. 10.1016/j.eswa.2014.03.019.
+[9] V. Smolyakov, "Ensemble Learning to Improve Machine Learning Results", https://blog.statsbot.co/ensemble-learning-d1dcd548e936. Last accessed 31st March 2019
