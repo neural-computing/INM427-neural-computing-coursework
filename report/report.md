@@ -41,7 +41,9 @@ Whilst prototyping, the initial dataset was split into a training and testing da
 
 At this point, k-fold cross validation was leveraged instead of randomly generating test/train splits. "k" was set to 5 effectively delivering 80% of the dataset for training and 20% for testing within an particular fold. Cross-validation is especially useful to get a better understanding of how well the data models remain unbiased and generalise in the case of relatively small datasets - the original dataset has ~1000 rows. This is because when selecting a small number samples from a dataset, we cannot reliably trust that the resulting collection contains the same distributions/patterns as the original dataset.
 
-The test accuracy over each of the "k" folds was then averaged to determine the overall test accuracy allowing an optimal set of hyper-parameters for each model to then be selected. To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric
+The test accuracy over each of the "k" folds was then averaged to determine the overall test accuracy allowing an optimal set of hyper-parameters for each model to then be selected.
+
+To evaluate the performance of the trained models against the test set, confusion matrices were plotted. These provide a simple visual breakdown of the classifiers performance. Additionally metrics of precision and recall can be used to understand the classifiers accuracy with respect to particular class an well as it's sensitivity (true-positive rate).
 
 ... MOVE DISCUSSION TO THIS SECTION ... .
 
@@ -120,33 +122,49 @@ The reported training accuracy for the most successful configurations for both m
 
 To determine the most effective model for this dataset a confusion matrix was produced using the best model choice on the test data. Accuracy is reported for the test set only, which is defined as the percentage of true positives identified over all classes out of the total samples considered.
 
+#### FNN Confusion Matrix
+
 ![5-fold confusion matrix for Best Neural Net Model](../Custom-NN/best_NN_kfold_sum_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
 
+#### SVM Confusion Matrix
 ![5-fold confusion matrix for Best SVM Model](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
 
-Considering the accuracy alone, we see very comparable performances between the two models as shown in the table below. The feedforward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing". 
+Considering the accuracy alone, we see very comparable performances between the two models as shown in the table below. The feed-forward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".
 
 |     | Accuracy                   |
 | --- | -------------------------- |
 | FNN | 89.3%                      |
 | SVM | 88.8%                      |
 
-However, as the dataset contains imbalanced classes, accuracy alone is not the best way of determining the performance of classifier - as it could simply be a consequence of a model biased towards the most frequent class. When determining whether a website is phishing or not, it can be considered that the best model is the one that correctly identifies the phishing websites i.e. reduces the number of phishing website false negatives. This is precisely because, in optimising for the highest proportion of websites correctly identified as phishing we can ensure the best experience for a user: there is a strong guarantee that phishing websites are handled appropriately, without simply identifying most websites as phishing or unknown. From this perspective, considering the phishing class recall will identify the model with better performance.
+However, as the dataset contains imbalanced classes, accuracy alone is not the best way of determining the performance of classifier - as it could simply be a consequence of a model biased towards the most frequent class. When determining whether a website is phishing or not, it can be considered that the best model is the one that correctly identifies the phishing websites i.e. reduces the number of phishing website false negatives. This is precisely because, in optimising for the highest proportion of websites correctly identified as phishing we can ensure the best experience for a user: there is a strong guarantee that phishing websites are handled appropriately, without simply identifying most websites as phishing or unknown. From this perspective, considering the precision and recall with respect to each class will aid in comparing the performance of each model.
 
-|     | Phishing Class Recall      |
-| --- | -------------------------- |
-| FNN | 90.7%                      |
-| SVM | 92.3%                      |
+| Class        | Model |  Precision | Recall | F1-Score |
+| ------------ | ----- | ---------- | ------ | -------- |
+| Phishing     | FNN   | 0.912      | 0.907  | 0.909    |
+| Phishing     | SVM   | 0.903      | 0.923  | 0.913    |
+| Non-Phishing | FNN   | 0.792      | 0.824  | 0.808    |
+| Non-Phishing | SVM   | 0.846      | 0.534  | 0.655    |
+| Unknown      | FNN   | 0.883      | 0.892  | 0.887    |
+| Unknown      | SVM   | 0.874      | 0.909  | 0.891    |
 
-From the table above both models perform similarly, however the SVM classifier achieved a recall 1.6% higher than the FNN classifier. The higher accuracy demonstrated by the FNN was mostly due to its lower rate of false negatives for the non-phishing class.
+From the table above, both models achieve similar F1-scores when classifying examples as "phishy" however the SVM classifier achieved a recall 1.6% higher with respect to this class suggesting that the model has a greater sensitivity when identifying phishing websites. On the other hand, the SVM model has a significantly lower F1-Score with respect to the "Non-Phishing" class. This is due to it only achiving a recall of 0.534 for this class and this is the man discrepancy between the two results. Finally we can see that again there is little difference between the F1-Scores achieved against the "Unknown" class suggesting that neither model is more preferable here.
+
+| Model | Class Averaged F1-Score |
+| ----- | ----------------------- |
+| FNN   | 0.868                   |
+| SVM   | 0.820                   |
+
+The table above contains the macro-averaged F1-Scores for each of the models. These were calculated by averaging the F1-Scores achieved against each of the classes. Overall we can see that the FNN model achieves a macro-averaged F1-Score 0.048 (4.8%) greater than the SVM model. The macro-averaged F1-Scores are equivalent to a multi-class accuracy measure that is sensitive to class imbalances, false positive and false negative rates suggesting that the FNN model is a better all round candidate for the detection of phishing websites give the 9 features considered in this study.
+
+To relate this back to the overall accuracy discussed above, the higher level of accuracy demonstrated by the FNN was mostly due to its lower rate of false negatives for the non-phishing class.
 
 ## V. Conclusion
 
-In this paper, we considered the performance of two types of models, SVMs and FFNs, to correctly classify websites as either non-phishing, phishing, or unknown. It was found that both sets of models demonstrated comparable performance in this task at both the training and testing stage. For both models as well, 
+In this paper, we considered the performance of two types of models, SVMs and FFNs, to correctly classify websites as either non-phishing, phishing, or unknown. It was found that both sets of models demonstrated comparable performance in this task at both the training and testing stage. For both models as well,
 
 Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the recall of the phishing class can be considered as a single optimising metric for either model, as this can be taken as a metric that ensure the best experience for an end-user. In this context, the SVM classifier performed slightly better to FNN.
 
-Extensions ... 
+Extensions ...
 
 models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
 
