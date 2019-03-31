@@ -1,9 +1,12 @@
-# Critical Evaluation of Feed-forward Neural Network and Support Vector Machine Classifiers for Phishing Websites Dataset
+---
+title: "Critical Evaluation of Feed-forward Neural Network and Support Vector Machine Classifiers for Phishing Websites Dataset"
+author: Mark Longhurst & Thomas Martin
+date: 31st March 2019
+geometry: margin=1.5cm
+output: pdf_document
+---
+
 ## INM427 Coursework
-
-Mark Longhurst & Thomas Martin
-
-31st March 2019
 
 https://github.com/neural-computing/INM427-neural-computing-coursework
 
@@ -29,18 +32,7 @@ Support vector machine (SVM) classifiers determine the classification of data po
 
 ## II. Dataset
 
-The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 9 features and target contained within this dataset were:
-
-* SFH
-* popUpWidnow
-* SSLfinal_State
-* Request_URL
-* URL_of_Anchor
-* web_traffic
-* URL_Length
-* age_of_domain
-* having_IP_Address
-* Result
+The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 9 features and target contained within this dataset were: SFH, popUpWindow, SSLfinal_State, Request_URL, URL_of_Anchor, web_traffic, URL_Length, age_of_domain, having_IP_Address, and Result.
 
 All features take one of 3 values 1, 0 and -1 and the framework that was originally used to produce them is explained within [8].
 
@@ -63,7 +55,7 @@ To evaluate the performance of the trained models against the test set, confusio
 
 Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively. This can be seen in Figure 1.
 
-![Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
+![Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively."){ width=250px }
 
 
 Weights were randomly initialised for each epoch within a given threshold, to ensure that networks weights can reach different minima for each run. The weights of the network were updated following a backpropagation algorithm, updating weights according to the mean squared error of the output layer nodes. An early stopping threshold was also set to ensure the training was stopped for a given epoch if the updated accuracy changed little from its previous value.
@@ -135,10 +127,10 @@ To determine the most effective model for this dataset a confusion matrix was pr
 
 #### FNN Confusion Matrix
 
-![5-fold confusion matrix for Best Neural Net Model](../Custom-NN/best_NN_kfold_sum_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
+![5-fold confusion matrix for Best Neural Net Model](../Custom-NN/best_NN_kfold_sum_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model"){ width=250px }
 
 #### SVM Confusion Matrix
-![5-fold confusion matrix for Best SVM Model](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
+![5-fold confusion matrix for Best SVM Model](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model"){ width=250px }
 
 Figures 2 and 3 contain the confusion matrices for the kfold test accuracy achieved by the FNN and SVM models respectively. Considering the accuracy alone, we see very comparable performances between the two models as shown in table 3. The feed-forward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".
 
@@ -187,13 +179,15 @@ Although this paper demonstrated that the two models independently have good per
 [1] Wikipedia contributors. "Phishing." Wikipedia. Last accessed 29th March 2019
 
 [2] "Phishing Web Site Methods", https://www.webcitation.org/5w9Z2iACi?url
-=http://www.fraudwatchinternational.com/phishing-fraud/phishing-web-site-
-methods/. Last accessed 27th March 2019
+=http://www.fraudwatchinternational.com/
+phishing-
+fraud/phishing-web-site-methods/. Last accessed 27th March 2019
 
-[3] "Feed-Forward Networks", https://cs.stanford.edu/people/eroberts/courses/
-soco/projects/neural-networks/Architecture/feedforward.html. Last accessed 27th March 2019
+[3] "Feed-Forward Networks", https://cs.stanford.edu/people/eroberts/courses/soco/projects/neural-networks/Architecture/
+feedforward.html. Last accessed 27th March 2019
 
-[4] J. Mahanta, "Introduction to Neural Networks, Advantages and Applications", https://towardsdatascience.com/introduction-to-neural-networks-advantages-and-applications-96851bd1a207. Last accessed 30th March 2019
+[4] J. Mahanta, "Introduction to Neural Networks, Advantages and Applications", https://towardsdatascience.com/introductio
+n-to-neural-networks-advantages-and-applications-96851bd1a207. Last accessed 30th March 2019
 
 [5] L. Auria & R. A. Moro. (2008). "Support Vector Machines (SVM) as a Technique for Solvency Analysis". German Institute for Economic Research
 
