@@ -56,11 +56,7 @@ The test accuracy over each of the "k" folds was then averaged to determine the 
 
 To evaluate the performance of the trained models against the test set, confusion matrices were plotted. These provide a simple visual breakdown of the classifiers performance. Additionally metrics of precision and recall can be used to understand the classifiers accuracy with respect to particular class an well as it's sensitivity (true-positive rate).
 
-... MOVE DISCUSSION TO THIS SECTION ... .
-
 Such an approach also helps given there is a class imbalance, which accuracy considered alone could lead to a biased classifier.
-
-... Something about evaluating the two models as the test stage ...
 
 ### III.II Feed-Forward Neural Network (FNN)
 
@@ -68,6 +64,7 @@ Such an approach also helps given there is a class imbalance, which accuracy con
 Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively.
 
 ![Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
+
 
 Weights were randomly initialised for each epoch within a given threshold, to ensure that networks weights can reach different minima for each run. The weights of the network were updated following a backpropagation algorithm, updating weights according to the mean squared error of the output layer nodes. An early stopping threshold was also set to ensure the training was stopped for a given epoch if the updated accuracy changed little from its previous value.
 
@@ -109,6 +106,7 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 | 0.95           | 0.7          | 4                | rbf    | 0.9609            | 0.8768            |
 | 0.65           | 1            | 4                | rbf    | 0.9398            | 0.8768            |
 | 0.95           | 0.7          | 7                | rbf    | 0.9609            | 0.8768            |
+Table: Top 10 model configurations for SVM
 
 #### Top 10 Configurations for FNN
 
@@ -124,6 +122,7 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 | 22                 | 0.046         | 0.005    | 0.001                    | 0.9428            | 0.8889            |
 | 30                 | 0.046         | 0.03     | 0.001                    | 0.9459            | 0.8889            |
 | 22                 | 0.031         | 0.005    | 0.001                    | 0.9431            | 0.8881            |
+Table: Top 10 model configurations for FNN
 
 From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model.
 
@@ -146,6 +145,7 @@ Considering the accuracy alone, we see very comparable performances between the 
 | --- | -------------------------- |
 | FNN | 89.3%                      |
 | SVM | 88.8%                      |
+Table: Overall Test Accuracy
 
 However, as the dataset contains imbalanced classes, accuracy alone is not the best way of determining the performance of classifier - as it could simply be a consequence of a model biased towards the most frequent class. When determining whether a website is phishing or not, it can be considered that the best model is the one that correctly identifies the phishing websites i.e. reduces the number of phishing website false negatives. This is precisely because, in optimising for the highest proportion of websites correctly identified as phishing we can ensure the best experience for a user: there is a strong guarantee that phishing websites are handled appropriately, without simply identifying most websites as phishing or unknown. From this perspective, considering the precision and recall with respect to each class will aid in comparing the performance of each model.
 
@@ -157,6 +157,7 @@ However, as the dataset contains imbalanced classes, accuracy alone is not the b
 | Non-Phishing | SVM   | 0.846      | 0.534  | 0.655    |
 | Unknown      | FNN   | 0.883      | 0.892  | 0.887    |
 | Unknown      | SVM   | 0.874      | 0.909  | 0.891    |
+Table: Class Specific Precision, Recall and F1-Scores. These were calculated assuming by picking each class inturn to be the positive class and assuming that the other classes represent negative samples
 
 From the table above, both models achieve similar F1-scores when classifying examples as "phishy" however the SVM classifier achieved a recall 1.6% higher with respect to this class suggesting that the model has a greater sensitivity when identifying phishing websites. On the other hand, the SVM model has a significantly lower F1-Score with respect to the "Non-Phishing" class. This is due to it only achiving a recall of 0.534 for this class and this is the man discrepancy between the two results. Finally we can see that again there is little difference between the F1-Scores achieved against the "Unknown" class suggesting that neither model is more preferable here.
 
@@ -164,6 +165,7 @@ From the table above, both models achieve similar F1-scores when classifying exa
 | ----- | ----------------------- |
 | FNN   | 0.868                   |
 | SVM   | 0.820                   |
+Table: Class Averaged F1-Scores
 
 The table above contains the macro-averaged F1-Scores for each of the models. These were calculated by averaging the F1-Scores achieved against each of the classes. Overall we can see that the FNN model achieves a macro-averaged F1-Score 0.048 (4.8%) greater than the SVM model. The macro-averaged F1-Scores are equivalent to a multi-class accuracy measure that is sensitive to class imbalances, false positive and false negative rates suggesting that the FNN model is a better all round candidate for the detection of phishing websites give the 9 features considered in this study.
 
@@ -175,9 +177,7 @@ In this paper, we considered the performance of two types of models, SVMs and FF
 
 Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the recall of the phishing class can be considered as a single optimising metric for either model, as this can be taken as a metric that ensure the best experience for an end-user. In this context, the SVM classifier performed slightly better to FNN.
 
-Extensions ...
-
-models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
+Models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
 
 Although this paper demonstrated that the two models independently have good performance as determined by the recall metric, it is generally considered that ensemble methods generally give better performance [9]. Rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance. This is especially the case for models that perform better in some instances compared to another
 
