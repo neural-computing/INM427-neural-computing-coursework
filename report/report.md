@@ -106,6 +106,9 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 | 0.95           | 0.7          | 4                | rbf    | 0.9609         | 0.8766        |
 | 0.65           | 1            | 4                | rbf    | 0.9398         | 0.8721        |
 | 0.95           | 0.7          | 7                | rbf    | 0.9609         | 0.8707        |
+Table: Top 10 model configurations for SVM
+
+
 #### Top 10 Configurations for FNN
 
 | Hidden Layer Nodes | Learning Rate | Momentum | Early Stopping Threshold | Train Accuracy    | Test Accuracy     |
