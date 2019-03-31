@@ -123,7 +123,7 @@ Table: Top 10 model configurations for SVM
 | 22                 | 0.046         | 0.005    | 0.001                    | 0.9428            | 0.8889            |
 | 30                 | 0.046         | 0.03     | 0.001                    | 0.9459            | 0.8889            |
 | 22                 | 0.031         | 0.005    | 0.001                    | 0.9431            | 0.8881            |
-Table: Top 10 model configurations for FNN
+Table: Top 10 model configurations for FNN 
 
 From tables 1 and 2 we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model.
 
