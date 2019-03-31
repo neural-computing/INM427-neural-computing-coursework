@@ -94,22 +94,18 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 
 #### Top 10 Configurations for SVM
 
-| Box Constraint | Kernel Scale | Shrinkage Period | Kernel | Train Accuracy    | Test Accuracy     |
-|----------------|--------------|------------------|--------|-------------------|-------------------|
-| box constraint | kernel scale | shrinkage period | kernel | train accuracy | test accuracy | cross fold error | kfold accuracy |
-|----------------|--------------|------------------|--------|----------------|---------------|------------------|----------------|
-| 0.65           | 1            | 10               | rbf    | 0.9398         | 0.8768        | 0.1123           | 0.8877         |
-| 0.95           | 1            | 10               | rbf    | 0.9535         | 0.8818        | 0.1153           | 0.8847         |
-| 0.65           | 1            | 1                | rbf    | 0.9398         | 0.8768        | 0.1160           | 0.8840         |
-| 0.95           | 1            | 7                | rbf    | 0.9535         | 0.8818        | 0.1160           | 0.8840         |
-| 0.95           | 1            | 4                | rbf    | 0.9535         | 0.8818        | 0.1168           | 0.8832         |
-| 0.95           | 1            | 1                | rbf    | 0.9535         | 0.8818        | 0.1175           | 0.8825         |
-| 0.65           | 1            | 7                | rbf    | 0.9398         | 0.8768        | 0.1190           | 0.8810         |
-| 0.95           | 0.7          | 4                | rbf    | 0.9609         | 0.8768        | 0.1234           | 0.8766         |
-| 0.65           | 1            | 4                | rbf    | 0.9398         | 0.8768        | 0.1279           | 0.8721         |
-| 0.95           | 0.7          | 7                | rbf    | 0.9609         | 0.8768        | 0.1293           | 0.8707         |
-Table: Top 10 model configurations for SVM
-
+| Box Constraint | Kernel Scale | Shrinkage Period | Kernel | Train Accuracy | Test Accuracy |
+|----------------|--------------|------------------|--------|----------------|---------------|
+| 0.65           | 1            | 10               | rbf    | 0.9398         | 0.8877        |
+| 0.95           | 1            | 10               | rbf    | 0.9535         | 0.8847        |
+| 0.65           | 1            | 1                | rbf    | 0.9398         | 0.8840        |
+| 0.95           | 1            | 7                | rbf    | 0.9535         | 0.8840        |
+| 0.95           | 1            | 4                | rbf    | 0.9535         | 0.8832        |
+| 0.95           | 1            | 1                | rbf    | 0.9535         | 0.8825        |
+| 0.65           | 1            | 7                | rbf    | 0.9398         | 0.8810        |
+| 0.95           | 0.7          | 4                | rbf    | 0.9609         | 0.8766        |
+| 0.65           | 1            | 4                | rbf    | 0.9398         | 0.8721        |
+| 0.95           | 0.7          | 7                | rbf    | 0.9609         | 0.8707        |
 #### Top 10 Configurations for FNN
 
 | Hidden Layer Nodes | Learning Rate | Momentum | Early Stopping Threshold | Train Accuracy    | Test Accuracy     |
