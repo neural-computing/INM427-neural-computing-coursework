@@ -29,7 +29,18 @@ Support vector machine (SVM) classifiers determine the classification of data po
 
 ## II. Dataset
 
-The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods.
+The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 8 features and target contained within this dataset were:
+* SFH
+* popUpWidnow
+* SSLfinal_State
+* Request_URL
+* URL_of_Anchor
+* web_traffic
+* URL_Length
+* age_of_domain
+* having_IP_Address
+* Result
+All features are have one of 3 values 1, 0 and -1 and the framework that was originally used to produce them is explained within [8].
 
 ## III. Methodology
 
@@ -114,7 +125,7 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 | 30                 | 0.046         | 0.03     | 0.001                    | 0.9459            | 0.8889            |
 | 22                 | 0.031         | 0.005    | 0.001                    | 0.9431            | 0.8881            |
 
-From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
+From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model.
 
 ### IV.II Model Comparison
 
@@ -168,7 +179,7 @@ Extensions ...
 
 models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
 
-Although this paper demonstrated that the two models independently have good performance as determined by the recall metric, it is generally considered that ensemble methods generally give better performance [8]. Rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance. This is especially the case for models that perform better in some instances compared to another
+Although this paper demonstrated that the two models independently have good performance as determined by the recall metric, it is generally considered that ensemble methods generally give better performance [9]. Rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance. This is especially the case for models that perform better in some instances compared to another
 
 ## VI. References
 
@@ -179,4 +190,5 @@ Although this paper demonstrated that the two models independently have good per
 [5] https://core.ac.uk/download/pdf/6302770.pdf
 [6] https://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html
 [7] Website Phishing Data Set, https://archive.ics.uci.edu/ml/datasets/Website+Phishing
-[8] https://blog.statsbot.co/ensemble-learning-d1dcd548e936
+[8] Abdelhamid, Neda & Ayesh, Aladdin & Thabtah, Fadi. (2014). Phishing detection based Associative Classification data mining. Expert Systems with Applications. 41. 5948–5959. 10.1016/j.eswa.2014.03.019.
+[9] https://blog.statsbot.co/ensemble-learning-d1dcd548e936
