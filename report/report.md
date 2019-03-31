@@ -37,15 +37,15 @@ This sections outlines the general approach taken to train and test either model
 
 ### III.I General Approach
 
-For both models, the initial dataset was split into a training and testing dataset in a proportion of 70% and 30% respectively.
+Whilst prototyping, the initial dataset was split into a training and testing dataset in a proportion of 70% and 30% respectively. Once the models were built, a grid search methodology was employed during the initial training process, grid-search was used to select the optimal hyper-parameter configuration.
 
-During the initial training process, grid-search cross-validation was used to select the optimal hyperparameter configuration. The specific process used was k-fold cross validation, where k was taken as 5. Cross-validation is especially useful to get a better understanding of how well the data models remain unbiased and generalise in the case of relatively small datasets - the original dataset has ~1000 rows. Mean test accuracy was used to determine the optimal set of hyperparameters for each model.
+At this point, k-fold cross validation was leveraged instead of randomly generating test/train splits. "k" was set to 5 effectively delivering 80% of the dataset for training and 20% for testing within an particular fold. Cross-validation is especially useful to get a better understanding of how well the data models remain unbiased and generalise in the case of relatively small datasets - the original dataset has ~1000 rows. This is because when selecting a small number samples from a dataset, we cannot reliably trust that the resulting collection contains the same distributions/patterns as the original dataset.
 
-To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the non-phishing class was taken as an optimising metric 
+The test accuracy over each of the "k" folds was then averaged to determine the overall test accuracy allowing an optimal set of hyper-parameters for each model to then be selected. To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric
 
 ... MOVE DISCUSSION TO THIS SECTION ... .
 
-Such an approach also helps given there is a large class imbalance, which accuracy considered alone could lead to a biased classifier.
+Such an approach also helps given there is a class imbalance, which accuracy considered alone could lead to a biased classifier.
 
 ... Something about evaluating the two models as the test stage ...
 
@@ -71,12 +71,10 @@ Next a multiclass SVM model was constructed using MATLAB's "fitcecoc" method. Th
 
 The following hyperparameters were tuned:
 
-TODO Define kernel_scale and shrinkage_period
-
-* Kernel - this determines how the SVM performs comparisons between datapoints to determine the hyperplane of maximum margin. The selection available consisted of linear, RBF, and polynomial kernels
+* Kernel - this determines how the SVM performs comparisons between data points to determine the hyperplane of maximum margin. The selection available consisted of linear, RBF, and polynomial kernels
 * Box Constraint - this controls the penalty on data-points that are misclassfied by the margin and overall helps with overfitting. Increasing the box constraint will reduce the number of support vectors the SVM margin uses. This was varied between 0.05 and 1, at increments of 0.3
-* Kernel scale - ... This was varied between 0.1 and 1, at increments of 0.3
-* Shrinkage period - ... This was varied between 1 and 10, at increments of 3
+* Kernel scale - this is a measure of the variance of the data points. This was varied between 0.1 and 1, at increments of 0.3
+* Shrinkage period - this is the number of iterations between reductions of the active set. This was varied between 1 and 10, at increments of 3
 
 ## IV. Results
 
@@ -152,7 +150,7 @@ Extensions ...
 
 models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
 
-Ensemble methods generally give better performance - rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance.
+Although this paper demonstrated that the two models independently have good performance as determined by the recall metric, it is generally considered that ensemble methods generally give better performance [8]. Rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance. This is especially the case for models that perform better in some instances compared to another
 
 ## VI. References
 
@@ -163,4 +161,4 @@ Ensemble methods generally give better performance - rather than comparing, mayb
 [5] https://core.ac.uk/download/pdf/6302770.pdf
 [6] https://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html
 [7] Website Phishing Data Set, https://archive.ics.uci.edu/ml/datasets/Website+Phishing
-
+[8] https://blog.statsbot.co/ensemble-learning-d1dcd548e936
