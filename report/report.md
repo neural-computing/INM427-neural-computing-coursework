@@ -1,15 +1,15 @@
-# Critical Evaluation of Feed-forward Neural Network and Support Vector Machine Classifiers against Phishing Websites Dataset
+# Critical Evaluation of Feed-forward Neural Network and Support Vector Machine Classifiers for Phishing Websites Dataset
 ## INM427 Coursework
 
 Mark Longhurst & Thomas Martin
 
 31st March 2019
 
-Repo:https://github.com/neural-computing/INM427-neural-computing-coursework
+https://github.com/neural-computing/INM427-neural-computing-coursework
 
 ## Abstract
 
-This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are a feed-forward neural network and support vector machine classifier. For each model, k-fold cross-validation was performed to determine the best configuration of hyperparameters in training. The performance of each trained model was then checked against a test set, using a confusion matrix and other derived metrics. Against these evaluation metrics, ... concluding statement
+This paper reports on a critical evaluation of two machine learning models in the task of identifying phishing websites. The models considered are a feed-forward neural network and support vector machine classifier. For each model, k-fold cross-validation was performed to determine the best configuration of hyperparameters in training. The performance of each trained model was then checked against a test set, using a confusion matrix and other derived metrics. Against these evaluation metrics, the feed-forward neural network achieved better performance.
 
 ## I. Introduction
 
@@ -29,7 +29,8 @@ Support vector machine (SVM) classifiers determine the classification of data po
 
 ## II. Dataset
 
-The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 8 features and target contained within this dataset were:
+The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods. The 9 features and target contained within this dataset were:
+
 * SFH
 * popUpWidnow
 * SSLfinal_State
@@ -55,9 +56,7 @@ At this point, k-fold cross validation was leveraged instead of randomly generat
 
 The test accuracy over each of the "k" folds was then averaged to determine the overall test accuracy allowing an optimal set of hyper-parameters for each model to then be selected.
 
-To evaluate the performance of the trained models against the test set, confusion matrices were plotted. These provide a simple visual breakdown of the classifiers performance. Additionally metrics of precision and recall can be used to understand the classifiers accuracy with respect to particular class an well as it's sensitivity (true-positive rate).
-
-Such an approach also helps given there is a class imbalance, which accuracy considered alone could lead to a biased classifier.
+To evaluate the performance of the trained models against the test set, confusion matrices were plotted. These provide a simple visual breakdown of the classifiers performance. Additionally metrics of precision and recall can be used to understand the classifiers accuracy with respect to particular class an well as its sensitivity (true-positive rate). Such an approach also helps given there is a class imbalance, which accuracy considered alone could lead to a biased classifier.
 
 ### III.II Feed-Forward Neural Network (FNN)
 
@@ -178,20 +177,32 @@ To relate this back to the overall accuracy discussed above, the higher level of
 
 In this paper, we considered the performance of two types of models, SVMs and FFNs, to correctly classify websites as either non-phishing, phishing, or unknown. It was found that both sets of models demonstrated comparable performance in this task at both the training and testing stage. For both models as well,
 
-Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the recall of the phishing class can be considered as a single optimising metric for either model, as this can be taken as a metric that ensure the best experience for an end-user. In this context, the SVM classifier performed slightly better to FNN.
+Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the f1-score a single optimising metric for either model, as this can be taken as a metric that ensure the best experience for an end-user. In this context, the FNN classifier performed slightly better to SVM.
 
-Models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
+Models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites.
 
 Although this paper demonstrated that the two models independently have good performance as determined by the recall metric, it is generally considered that ensemble methods generally give better performance [9]. Rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance. This is especially the case for models that perform better in some instances compared to another
 
 ## VI. References
 
-[1] Phishing https://en.wikipedia.org/wiki/Phishing
-[2] Phishing Web Site Methods https://www.webcitation.org/5w9Z2iACi?url=http://www.fraudwatchinternational.com/phishing-fraud/phishing-web-site-methods/
-[3] https://cs.stanford.edu/people/eroberts/courses/soco/projects/neural-networks/Architecture/feedforward.html
-[4] https://towardsdatascience.com/introduction-to-neural-networks-advantages-and-applications-96851bd1a207
-[5] https://core.ac.uk/download/pdf/6302770.pdf
-[6] https://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html
-[7] Website Phishing Data Set, https://archive.ics.uci.edu/ml/datasets/Website+Phishing
-[8] Abdelhamid, Neda & Ayesh, Aladdin & Thabtah, Fadi. (2014). Phishing detection based Associative Classification data mining. Expert Systems with Applications. 41. 5948–5959. 10.1016/j.eswa.2014.03.019.
-[9] https://blog.statsbot.co/ensemble-learning-d1dcd548e936
+[1] Wikipedia contributors. "Phishing." Wikipedia. Last accessed 29th March 2019
+
+[2] "Phishing Web Site Methods", https://www.webcitation.org/5w9Z2iACi?url
+=http://www.fraudwatchinternational.com/phishing-fraud/phishing-web-site-
+methods/. Last accessed 27th March 2019
+
+[3] "Feed-Forward Networks", https://cs.stanford.edu/people/eroberts/courses/
+soco/projects/neural-networks/Architecture/feedforward.html. Last accessed 27th March 2019
+
+[4] J. Mahanta, "Introduction to Neural Networks, Advantages and Applications", https://towardsdatascience.com/introduction-to-neural-networks-advantages-and-applications-96851bd1a207. Last accessed 30th March 2019
+
+[5] L. Auria & R. A. Moro. (2008). "Support Vector Machines (SVM) as a Technique for Solvency Analysis". German Institute for Economic Research
+
+[6] https://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html. Last accessed 29th March 2019
+
+[7] N, Abdelhamid, Website Phishing Data Set, https://archive.ics.uci.edu/ml/da
+tasets/Website+Phishing. Last accessed 21st March 2019
+
+[8] Abdelhamid, Neda & Ayesh, Aladdin & Thabtah, Fadi. (2014). "Phishing detection based Associative Classification data mining". Expert Systems with Applications. 41. 5948–5959. 10.1016/j.eswa.2014.03.019.
+
+[9] V. Smolyakov, "Ensemble Learning to Improve Machine Learning Results", https://blog.statsbot.co/ensemble-learning-d1dcd548e936. Last accessed 31st March 2019
