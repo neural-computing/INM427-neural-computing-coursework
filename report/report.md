@@ -61,7 +61,7 @@ To evaluate the performance of the trained models against the test set, confusio
 ### III.II Feed-Forward Neural Network (FNN)
 
 
-Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively.
+Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively. This can be seen in Figure 1.
 
 ![Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
 
@@ -122,7 +122,7 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 | 22                 | 0.031         | 0.005    | 0.001                    | 0.9431            | 0.8881            |
 Table: Top 10 model configurations for FNN
 
-From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model.
+From tables 1 and 2 we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model.
 
 ### IV.II Model Comparison
 
@@ -137,7 +137,7 @@ To determine the most effective model for this dataset a confusion matrix was pr
 #### SVM Confusion Matrix
 ![5-fold confusion matrix for Best SVM Model](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
 
-Considering the accuracy alone, we see very comparable performances between the two models as shown in the table below. The feed-forward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".
+Figures 2 and 3 contain the confusion matrices for the kfold test accuracy achieved by the FNN and SVM models respectively. Considering the accuracy alone, we see very comparable performances between the two models as shown in table 3. The feed-forward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".
 
 |     | Accuracy                   |
 | --- | -------------------------- |
@@ -157,7 +157,7 @@ However, as the dataset contains imbalanced classes, accuracy alone is not the b
 | Unknown      | SVM   | 0.874      | 0.909  | 0.891    |
 Table: Class Specific Precision, Recall and F1-Scores. These were calculated assuming by picking each class inturn to be the positive class and assuming that the other classes represent negative samples
 
-From the table above, both models achieve similar F1-scores when classifying examples as "phishy" however the SVM classifier achieved a recall 1.6% higher with respect to this class suggesting that the model has a greater sensitivity when identifying phishing websites. On the other hand, the SVM model has a significantly lower F1-Score with respect to the "Non-Phishing" class. This is due to it only achiving a recall of 0.534 for this class and this is the man discrepancy between the two results. Finally we can see that again there is little difference between the F1-Scores achieved against the "Unknown" class suggesting that neither model is more preferable here.
+From the table 4, both models achieve similar F1-scores when classifying examples as "phishy" however the SVM classifier achieved a recall 1.6% higher with respect to this class suggesting that the model has a greater sensitivity when identifying phishing websites. On the other hand, the SVM model has a significantly lower F1-Score with respect to the "Non-Phishing" class. This is due to it only achiving a recall of 0.534 for this class and this is the man discrepancy between the two results. Finally we can see that again there is little difference between the F1-Scores achieved against the "Unknown" class suggesting that neither model is more preferable here.
 
 | Model | Class Averaged F1-Score |
 | ----- | ----------------------- |
@@ -165,7 +165,7 @@ From the table above, both models achieve similar F1-scores when classifying exa
 | SVM   | 0.820                   |
 Table: Class Averaged F1-Scores
 
-The table above contains the macro-averaged F1-Scores for each of the models. These were calculated by averaging the F1-Scores achieved against each of the classes. Overall we can see that the FNN model achieves a macro-averaged F1-Score 0.048 (4.8%) greater than the SVM model. The macro-averaged F1-Scores are equivalent to a multi-class accuracy measure that is sensitive to class imbalances, false positive and false negative rates suggesting that the FNN model is a better all round candidate for the detection of phishing websites give the 9 features considered in this study.
+Table 5 contains the macro-averaged F1-Scores for each of the models. These were calculated by averaging the F1-Scores achieved against each of the classes. Overall we can see that the FNN model achieves a macro-averaged F1-Score 0.048 (4.8%) greater than the SVM model. The macro-averaged F1-Scores are equivalent to a multi-class accuracy measure that is sensitive to class imbalances, false positive and false negative rates suggesting that the FNN model is a better all round candidate for the detection of phishing websites give the 9 features considered in this study.
 
 To relate this back to the overall accuracy discussed above, the higher level of accuracy demonstrated by the FNN was mostly due to its lower rate of false negatives for the non-phishing class.
 
