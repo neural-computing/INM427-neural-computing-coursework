@@ -40,6 +40,7 @@ The dataset used in this study was taken from the UCI Machine Learning Repositor
 * age_of_domain
 * having_IP_Address
 * Result
+
 All features take one of 3 values 1, 0 and -1 and the framework that was originally used to produce them is explained within [8].
 
 ## III. Methodology
