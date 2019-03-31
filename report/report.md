@@ -1,13 +1,11 @@
-# Title
+# Critical Evaluation of Feed-forward Neural Network and Support Vector Machine Classifiers against Phishing Websites Dataset
 ## INM427 Coursework
 
 Mark Longhurst & Thomas Martin
 
-29th March 2019
+31st March 2019
 
-Repo: https://github.com/neural-computing/INM427-neural-computing-coursework
-
-TODO: add more references
+Repo:https://github.com/neural-computing/INM427-neural-computing-coursework
 
 ## Abstract
 
@@ -15,7 +13,7 @@ This paper reports on a critical evaluation of two machine learning models in th
 
 ## I. Introduction
 
-Phishing websites represent a subset of the wider phishing problem [1]. In general, phishing relates to any attempt to fraudulently obtain sensitive personal information in an electronic communication. Phishing websites are websites that trick users into believing they are on an otherwise legitimate website, typically using a range of frontend web technologies in order to gain this information [2]. This is an increasingly important problem due to the increasing reliance on web-based services [1].
+Phishing websites represent a subset of the wider phishing problem [1]. In general, phishing relates to any attempt to fraudulently obtain sensitive personal information in an electronic communication. Phishing websites are websites that trick users into believing they are on an otherwise non-phishing website, typically using a range of frontend web technologies in order to gain this information [2]. This is an increasingly important problem due to the increasing reliance on web-based services [1].
 
 This paper aims to evaluate the performance of two models in the task of identifying phishing websites based on 9 features. The models considered in this paper belong to feed-forward neural networks and support vector machine (SVM) family of models. We use cross-validation to perform hyperparameter tuning from the parameter space.
 
@@ -31,7 +29,7 @@ Support vector machine (SVM) classifiers determine the classification of data po
 
 ## II. Dataset
 
-The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either legitimate, suspicious, or phishy, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for legitimate, phishy and suspicious samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods.
+The dataset used in this study was taken from the UCI Machine Learning Repository, originally collected from the Phishtank data archive [7]. The dataset contains features corresponding to 1353 websites, classed as either non-phishing, unknown, or phishing, encoded as 1, 0, and -1 respectively. There is a slight imbalance between these classes occurring with a frequency of 548, 702 and 103 for non-phishing, phishing and unknown samples respectively. However, this imbalance is not dramatic enough to require additional sampling methods.
 
 ## III. Methodology
 
@@ -43,7 +41,7 @@ For both models, the initial dataset was split into a training and testing datas
 
 During the initial training process, grid-search cross-validation was used to select the optimal hyperparameter configuration. The specific process used was k-fold cross validation, where k was taken as 5. Cross-validation is especially useful to get a better understanding of how well the data models remain unbiased and generalise in the case of relatively small datasets - the original dataset has ~1000 rows. Mean test accuracy was used to determine the optimal set of hyperparameters for each model.
 
-To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the legitimate class was taken as an optimising metric 
+To evaluate the performance of the trained models against the test set confusion matrices were plotted. As an additional step the precision for the non-phishing class was taken as an optimising metric 
 
 ... MOVE DISCUSSION TO THIS SECTION ... .
 
@@ -56,7 +54,7 @@ Such an approach also helps given there is a large class imbalance, which accura
 
 Initially a fully connected feed-forward neural network was built utilizing the sigmoid function as the neuron activation function for all nodes. The number of input and output layer nodes was kept consistent, equal to the number of predictor variables plus bias, and classes respectively.
 
-![Feed Forward Neural Network](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
+![Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.](./diagrams/Feed-Forward-Diagram.png?raw=true "Feed Forward Neural Network, where input, hidden, output layer and bias nodes are indicated with letters I, H, O, and B respectively.")
 
 Weights were randomly initialised for each epoch within a given threshold, to ensure that networks weights can reach different minima for each run. The weights of the network were updated following a backpropagation algorithm, updating weights according to the mean squared error of the output layer nodes. An early stopping threshold was also set to ensure the training was stopped for a given epoch if the updated accuracy changed little from its previous value.
 
@@ -88,35 +86,33 @@ In total, 128 models were run for both the Neural Net and SVM. The following tab
 
 #### Top 10 Configurations for SVM
 
-TODO: Out of "Train Accuracy" and "K-fold Accuracy", which makes most sense to keep? I think they should be reporting the same kind of thing if I understand correctly
-
-| Box Constraint | Kernel Scale | Shrinkage Period | Kernel | Train Accuracy    | Test Accuracy     | K-fold Accuracy   |
-|----------------|--------------|------------------|--------|-------------------|-------------------|-------------------|
-| 0.65           | 1            | 10               | rbf    | 0.9398 | 0.8768 | 0.8877 |
-| 0.95           | 1            | 10               | rbf    | 0.9535 | 0.8818 | 0.8847  |
-| 0.65           | 1            | 1                | rbf    | 0.9398 | 0.8768 | 0.8840 |
-| 0.95           | 1            | 7                | rbf    | 0.9535 | 0.8818 | 0.8840 |
-| 0.95           | 1            | 4                | rbf    | 0.9535 | 0.8818 | 0.8832 |
-| 0.95           | 1            | 1                | rbf    | 0.9535 | 0.8818 | 0.8825 |
-| 0.65           | 1            | 7                | rbf    | 0.9398 | 0.8768 | 0.8810   |
-| 0.95           | 0.7          | 4                | rbf    | 0.9609 | 0.8768 | 0.8766 |
-| 0.65           | 1            | 4                | rbf    | 0.9398 | 0.8768 | 0.8721 |
-| 0.95           | 0.7          | 7                | rbf    | 0.9609 | 0.8768 | 0.8707 |
+| Box Constraint | Kernel Scale | Shrinkage Period | Kernel | Train Accuracy    | Test Accuracy     |
+|----------------|--------------|------------------|--------|-------------------|-------------------|
+| 0.65           | 1            | 10               | rbf    | 0.9398            | 0.8768            |
+| 0.95           | 1            | 10               | rbf    | 0.9535            | 0.8818            |
+| 0.65           | 1            | 1                | rbf    | 0.9398            | 0.8768            |
+| 0.95           | 1            | 7                | rbf    | 0.9535            | 0.8818            |
+| 0.95           | 1            | 4                | rbf    | 0.9535            | 0.8818            |
+| 0.95           | 1            | 1                | rbf    | 0.9535            | 0.8818            |
+| 0.65           | 1            | 7                | rbf    | 0.9398            | 0.8768            |
+| 0.95           | 0.7          | 4                | rbf    | 0.9609            | 0.8768            |
+| 0.65           | 1            | 4                | rbf    | 0.9398            | 0.8768            |
+| 0.95           | 0.7          | 7                | rbf    | 0.9609            | 0.8768            |
 
 #### Top 10 Configurations for FNN
 
 | Hidden Layer Nodes | Learning Rate | Momentum | Early Stopping Threshold | Train Accuracy    | Test Accuracy     |
 |--------------------|---------------|----------|--------------------------|-------------------|-------------------|
-| 26                 | 0.046         | 0.005    | 0.001                    | 0.9496 | 0.8926 |
-| 26                 | 0.046         | 0.03     | 0.001                    | 0.9398 | 0.8926 |
-| 34                 | 0.046         | 0.005    | 0.001                    | 0.9498 | 0.8926 |
-| 34                 | 0.031         | 0.03     | 0.001                    | 0.9452 | 0.8911 |
-| 18                 | 0.046         | 0.03     | 0.001                    | 0.9411 | 0.8911 |
-| 34                 | 0.046         | 0.03     | 0.001                    | 0.9435 | 0.8911 |
-| 30                 | 0.046         | 0.005    | 0.001                    | 0.9491 | 0.8904  |
-| 22                 | 0.046         | 0.005    | 0.001                    | 0.9428 | 0.8889 |
-| 30                 | 0.046         | 0.03     | 0.001                    | 0.9459 | 0.8889 |
-| 22                 | 0.031         | 0.005    | 0.001                    | 0.9431 | 0.8881 |
+| 26                 | 0.046         | 0.005    | 0.001                    | 0.9496            | 0.8926            |
+| 26                 | 0.046         | 0.03     | 0.001                    | 0.9398            | 0.8926            |
+| 34                 | 0.046         | 0.005    | 0.001                    | 0.9498            | 0.8926            |
+| 34                 | 0.031         | 0.03     | 0.001                    | 0.9452            | 0.8911            |
+| 18                 | 0.046         | 0.03     | 0.001                    | 0.9411            | 0.8911            |
+| 34                 | 0.046         | 0.03     | 0.001                    | 0.9435            | 0.8911            |
+| 30                 | 0.046         | 0.005    | 0.001                    | 0.9491            | 0.8904            |
+| 22                 | 0.046         | 0.005    | 0.001                    | 0.9428            | 0.8889            |
+| 30                 | 0.046         | 0.03     | 0.001                    | 0.9459            | 0.8889            |
+| 22                 | 0.031         | 0.005    | 0.001                    | 0.9431            | 0.8881            |
 
 From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
 
@@ -126,42 +122,31 @@ The reported training accuracy for the most successful configurations for both m
 
 To determine the most effective model for this dataset a confusion matrix was produced using the best model choice on the test data. Accuracy is reported for the test set only, which is defined as the percentage of true positives identified over all classes out of the total samples considered.
 
-Neural Net
-![Alt text](../Custom-NN/best_NN_kfold_sum_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
+![5-fold confusion matrix for Best Neural Net Model](../Custom-NN/best_NN_kfold_sum_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best Neural Net Model")
 
-SVM
-![Alt text](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
+![5-fold confusion matrix for Best SVM Model](../Custom-SVM/best_SVM_kfold_test_confusion_compare_this.png?raw=true "5-fold confusion matrix for Best SVM Model")
 
-Considering the accuracy alone, we see very comparable performances between the two models as shown in the table below.
+Considering the accuracy alone, we see very comparable performances between the two models as shown in the table below. The feedforward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing". 
 
 |     | Accuracy                   |
 | --- | -------------------------- |
 | FNN | 89.3%                      |
 | SVM | 88.8%                      |
 
-The feedforward network out performs the SVM model by about 0.5% and it appears to be significantly better at correctly identifying emails as "non-phishing".However when determining whether a website is phishy or not, it can be considered that the best model is the one that minimises the number of web sites wrongly classified as legitimate i.e. minimises number of false negatives for legitimate/non-phishy class. This is precisely because, in optimising for the lowest number of websites wrongly classfied as non-phishy we can ensure the safest experience for a user: a website classified as phishy/suspicious can always be investigated further.
+However, as the dataset contains imbalanced classes, accuracy alone is not the best way of determining the performance of classifier - as it could simply be a consequence of a model biased towards the most frequent class. When determining whether a website is phishing or not, it can be considered that the best model is the one that correctly identifies the phishing websites i.e. reduces the number of phishing website false negatives. This is precisely because, in optimising for the highest proportion of websites correctly identified as phishing we can ensure the best experience for a user: there is a strong guarantee that phishing websites are handled appropriately, without simply identifying most websites as phishing or unknown. From this perspective, considering the phishing class recall will identify the model with better performance.
 
-TODO: Discuss recall
-
-|     | Phishy Class Recall        |
+|     | Phishing Class Recall      |
 | --- | -------------------------- |
 | FNN | 90.7%                      |
 | SVM | 92.3%                      |
 
-|     | Legitimate Class Precision |
-| --- | -------------------------- |
-| FNN | 82.4%                      |
-| SVM | 53.4%                      |
-
-From this perspective, it can be argued that the SVM model performed much better than the FNN model
+From the table above both models perform similarly, however the SVM classifier achieved a recall 1.6% higher than the FNN classifier. The higher accuracy demonstrated by the FNN was mostly due to its lower rate of false negatives for the non-phishing class.
 
 ## V. Conclusion
 
-In this paper, we considered the performance of two types of models, SVMs and FFNs, to correctly classify websites as either legitimate, phishy, or suspicious.
+In this paper, we considered the performance of two types of models, SVMs and FFNs, to correctly classify websites as either non-phishing, phishing, or unknown. It was found that both sets of models demonstrated comparable performance in this task at both the training and testing stage. For both models as well, 
 
-Conclusion of two model comparison ... need to discuss
-
-Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the precision of the legitimate class can be considered as a single optimising metric for either model.
+Given that this is a multiclass classification problem, a confusion matrix proved to be the most immediate and effective means to make meaningful comparison between the two trained model. From consideration of the problem domain, the recall of the phishing class can be considered as a single optimising metric for either model, as this can be taken as a metric that ensure the best experience for an end-user. In this context, the SVM classifier performed slightly better to FNN.
 
 Extensions ... 
 
