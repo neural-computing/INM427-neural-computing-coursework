@@ -92,31 +92,31 @@ TODO: Out of "Train Accuracy" and "K-fold Accuracy", which makes most sense to k
 
 | Box Constraint | Kernel Scale | Shrinkage Period | Kernel | Train Accuracy    | Test Accuracy     | K-fold Accuracy   |
 |----------------|--------------|------------------|--------|-------------------|-------------------|-------------------|
-| 0.65           | 1            | 10               | rbf    | 0.939809926082365 | 0.876847290640394 | 0.887657058388766 |
-| 0.95           | 1            | 10               | rbf    | 0.953537486800422 | 0.881773399014778 | 0.88470066518847  |
-| 0.65           | 1            | 1                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.883961566888396 |
-| 0.95           | 1            | 7                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.883961566888396 |
-| 0.95           | 1            | 4                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.883222468588322 |
-| 0.95           | 1            | 1                | rbf    | 0.953537486800422 | 0.881773399014778 | 0.882483370288248 |
-| 0.65           | 1            | 7                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.8810051736881   |
-| 0.95           | 0.7          | 4                | rbf    | 0.960929250263992 | 0.876847290640394 | 0.876570583887657 |
-| 0.65           | 1            | 4                | rbf    | 0.939809926082365 | 0.876847290640394 | 0.872135994087214 |
-| 0.95           | 0.7          | 7                | rbf    | 0.960929250263992 | 0.876847290640394 | 0.870657797487066 |
+| 0.65           | 1            | 10               | rbf    | 0.9398 | 0.8768 | 0.8877 |
+| 0.95           | 1            | 10               | rbf    | 0.9535 | 0.8818 | 0.8847  |
+| 0.65           | 1            | 1                | rbf    | 0.9398 | 0.8768 | 0.8840 |
+| 0.95           | 1            | 7                | rbf    | 0.9535 | 0.8818 | 0.8840 |
+| 0.95           | 1            | 4                | rbf    | 0.9535 | 0.8818 | 0.8832 |
+| 0.95           | 1            | 1                | rbf    | 0.9535 | 0.8818 | 0.8825 |
+| 0.65           | 1            | 7                | rbf    | 0.9398 | 0.8768 | 0.8810   |
+| 0.95           | 0.7          | 4                | rbf    | 0.9609 | 0.8768 | 0.8766 |
+| 0.65           | 1            | 4                | rbf    | 0.9398 | 0.8768 | 0.8721 |
+| 0.95           | 0.7          | 7                | rbf    | 0.9609 | 0.8768 | 0.8707 |
 
 #### Top 10 Configurations for FNN
 
 | Hidden Layer Nodes | Learning Rate | Momentum | Early Stopping Threshold | Train Accuracy    | Test Accuracy     |
 |--------------------|---------------|----------|--------------------------|-------------------|-------------------|
-| 26                 | 0.046         | 0.005    | 0.001                    | 0.949629629629629 | 0.892592592592593 |
-| 26                 | 0.046         | 0.03     | 0.001                    | 0.939814814814815 | 0.892592592592593 |
-| 34                 | 0.046         | 0.005    | 0.001                    | 0.949814814814815 | 0.892592592592592 |
-| 34                 | 0.031         | 0.03     | 0.001                    | 0.945185185185185 | 0.891111111111111 |
-| 18                 | 0.046         | 0.03     | 0.001                    | 0.941111111111111 | 0.891111111111111 |
-| 34                 | 0.046         | 0.03     | 0.001                    | 0.943518518518518 | 0.891111111111111 |
-| 30                 | 0.046         | 0.005    | 0.001                    | 0.949074074074074 | 0.89037037037037  |
-| 22                 | 0.046         | 0.005    | 0.001                    | 0.942777777777778 | 0.888888888888889 |
-| 30                 | 0.046         | 0.03     | 0.001                    | 0.945925925925926 | 0.888888888888889 |
-| 22                 | 0.031         | 0.005    | 0.001                    | 0.943148148148148 | 0.888148148148148 |
+| 26                 | 0.046         | 0.005    | 0.001                    | 0.9496 | 0.8926 |
+| 26                 | 0.046         | 0.03     | 0.001                    | 0.9398 | 0.8926 |
+| 34                 | 0.046         | 0.005    | 0.001                    | 0.9498 | 0.8926 |
+| 34                 | 0.031         | 0.03     | 0.001                    | 0.9452 | 0.8911 |
+| 18                 | 0.046         | 0.03     | 0.001                    | 0.9411 | 0.8911 |
+| 34                 | 0.046         | 0.03     | 0.001                    | 0.9435 | 0.8911 |
+| 30                 | 0.046         | 0.005    | 0.001                    | 0.9491 | 0.8904  |
+| 22                 | 0.046         | 0.005    | 0.001                    | 0.9428 | 0.8889 |
+| 30                 | 0.046         | 0.03     | 0.001                    | 0.9459 | 0.8889 |
+| 22                 | 0.031         | 0.005    | 0.001                    | 0.9431 | 0.8881 |
 
 From these tables we can see that all of the best performing SVM models used a radial basis function (rbf) kernel with a kernel scale of 1. Coupling this with a box constraint of 0.65 and shrinkage period of 10 built the best SVM model and this will be carried forward into the model comparison. Similarly with the FNN we can see that the top 3 models all achieved almost identical test accuracy. This suggests that either 26 or 34 hidden nodes, a momentum of either 0.005 and 0.03, a learning rate of 0.046 and a stopping threshold of 0.001 delivers the best performance. We selected 26 hidden nodes instead of 34 to try and reduce the training time of the model. 
 
@@ -165,9 +165,9 @@ Given that this is a multiclass classification problem, a confusion matrix prove
 
 Extensions ... 
 
-Ensemble methods generally give better performance - rather than comparing, maybe the two methods could be used in conjunction to achieve a better overal performance.
-
 models were selected based on the test accuracy achieved during the kfold training process. The dataset used within this study contains a fairly large class imbalance with the "non-phishing" class under represented by a ratio of roughly 7-1. This may mean that using accuracy for model selection is unfairly biased towards models that are able to better predict "phishing" websites at the expense of "non-phishing" websites. Whilst this may not be a problem to an end user,
+
+Ensemble methods generally give better performance - rather than comparing, maybe the two methods could be used in conjunction to achieve a better overall performance.
 
 ## VI. References
 
